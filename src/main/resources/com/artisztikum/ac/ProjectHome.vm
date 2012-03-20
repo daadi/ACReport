@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<title></title>
+		<link href="/static/css/acreport.css" rel="stylesheet" type="text/css">
+		<link href="/static/css/jquery.dataTables.css" rel="stylesheet" type="text/css">
+		<link href="/static/css/jquery.dataTables.css" rel="stylesheet" type="text/css">
+		<link href="/static/css/demo_table.css" rel="stylesheet" type="text/css">
+		<link href="/static/css/ColumnFilterWidgets.css" rel="stylesheet" type="text/css">
+		<script type='text/javascript' src='/static/js/jquery-1.4.2.min.js'></script>            
+		<script type="text/javascript" src="/static/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="/static/js/ColumnFilterWidgets.js"></script>
+		<script type="text/javascript" src="/static/js/jquery.dataTables.rowGrouping.js"></script>
+		<script type="text/javascript" src="/static/js/projecthome.js"></script>
+	</head>
+	<body>
+
+		<table id="summary">
+			<thead>
+				<tr>
+					<th>Company</th>
+					<th>Tickets</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+
+
+		<table id="tickets">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>name</th>
+					<th>responsible</th>
+					<th>company</th>
+					<th>milestone</th>
+				</tr>
+			</thead>
+			<tbody>
+#foreach( $ticket in $tickets )
+				<tr>
+					<td>$ticket.getTicketId()</td>
+					<td><a href="$ticket.getPermalink()" target="_blank">$ticket.getName()</a></td>
+					<td>#if ($ticket.getResponsible())$ticket.getResponsible().getFirstName() $ticket.getResponsible().getLastName() #else n/a #end</td>
+					<td>#if ($ticket.getResponsible())$ticket.getResponsible().getCompany().getName() #else n/a #end</td>
+					<td>#if ($ticket.getMilestone())$ticket.getMilestone().getName() #else n/a #end</td>
+				</tr>
+#end
+			</tbody>
+		</table>
+	</body>
+</html>
+

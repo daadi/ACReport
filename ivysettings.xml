@@ -1,0 +1,30 @@
+<ivysettings>
+
+	<!-- Load shared settings between ant and eclipse -->
+	<properties file="ivysettings.properties" />
+
+	<!-- For using the same cache as ant (For some reason without this it would be ~/.ivy2/cache in IvyDE) -->
+	<caches defaultCacheDir="${ivy.home}/cache" />
+
+	<!-- Define the resolvers (repositories) -->
+	<resolvers>
+		<chain>
+			<!-- Ivy roundup -->
+			<packager name="roundup" buildRoot="${user.home}/.ivy2/packager/build" resourceCache="${user.home}/.ivy2/packager/cache">
+				<ivy pattern="http://ivyroundup.googlecode.com/svn/trunk/repo/modules/[organisation]/[module]/[revision]/ivy.xml"/>
+				<artifact pattern="http://ivyroundup.googlecode.com/svn/trunk/repo/modules/[organisation]/[module]/[revision]/packager.xml"/>
+			</packager>			
+
+			<!-- default central repository: mvnrepository.com -->
+			<ibiblio name="central" m2compatible="true" />
+
+			<!-- Eclipselink has it's own repositiry -->
+			<ibiblio name="eclipselink" m2compatible="true"  
+				root="http://www.eclipse.org/downloads/download.php?r=1&amp;nf=1&amp;file=/rt/eclipselink/maven.repo/"/>
+
+		</chain>
+	</resolvers>
+	<conflict-managers>
+		<latest-time name="my-latest-time"/>
+	</conflict-managers>
+</ivysettings>

@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<title>Login</title>
+		<script type="text/javascript">
+function setApiKey()
+{
+	var apiKey = document.getElementById("apiKey").value;
+	var date = new Date();
+	date.setTime(date.getTime()+(14*24*60*60*1000));
+	var expires = "expires="+date.toGMTString();
+	document.cookie = "apikey="+apiKey+"; expires="+expires+"; path=/";
+}
+		</script>
+	</head>
+	<body>
+		<form method="GET">
+#if (${invalidKey})
+			<div class="error">Active Collab API has rejected your API key!</div>
+#end
+			<label for="apiKey">Enter API key for ${APIHost}</label>
+			<input type="text" id="apiKey" #if(${apiKey})value="${apiKey}"#end/>
+			<input type="submit" value="Done" onclick="javascript:setApiKey();"/>
+		</form>
+	</body>
+</html>
+

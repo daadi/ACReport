@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="adsng-core" default="init-ivy" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<target name="init-ivy">
+		<echo taskname="deps" message="Downloading dependencies into ${lib.dir}" />
+		<ivy:configure file="ivysettings.xml" />
+		<ivy:resolve checkifchanged="false" file="ivy.xml" showProgress="false" conf="*" validate="true" />
+		<mkdir dir="${report.dir}/ivy" />
+		<ivy:report todir="${report.dir}/ivy" />
+	</target>
+
+</project>

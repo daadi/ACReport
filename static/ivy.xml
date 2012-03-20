@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-module version="2.2">
+	<info organisation="com.artisztikum" module="acreport" />
+    <configurations defaultconfmapping="*->default">
+    	<conf name="compile" description="Compile dependencies" />
+    	<conf name="runtime" description="Runtime dependencies" />
+    	<conf name="test" description="Test dependencies" />
+    	<conf name="tasks" description="Ant dependencies (tasks)" />
+    	<conf name="publish" description="Dependencies of the published artifacts" />
+    </configurations>
+    <publications>
+    	<artifact name="acreport" type="jar" conf="publish" ext="jar" />
+    </publications>
+	<dependencies>
+
+		<!-- commons -->
+		<dependency transitive="false" org="org.projectlombok" name="lombok" rev="0.10.8" conf="compile" />
+		<dependency transitive="false" org="com.google.guava" name="guava" rev="11.0.2" conf="compile;runtime" />
+		<dependency org="org.apache.velocity" name="velocity" rev="1.7" conf="compile;runtime" />
+		<dependency transitive="false" org="findbugs" name="annotations" rev="1.0.0" conf="compile" />
+
+		<!-- slf4j -->
+		<dependency transitive="false" org="org.slf4j" name="slf4j-api" rev="1.6.4" conf="compile;runtime" />
+		<dependency transitive="false" org="org.slf4j" name="jcl-over-slf4j" rev="1.6.4" conf="runtime" />
+		<dependency transitive="false" org="org.slf4j" name="jul-to-slf4j" rev="1.6.4" conf="compile;runtime" />
+		
+		<!-- logback -->
+		<dependency transitive="false" org="ch.qos.logback" name="logback-core" rev="1.0.1" conf="runtime" />
+		<dependency transitive="false" org="ch.qos.logback" name="logback-classic" rev="1.0.1" conf="runtime" />
+		
+		<!-- testng -->
+		<dependency transitive="true" org="org.testng" name="testng" rev="6.0.1" conf="test" />
+
+		<dependency transitive="true" org="com.google" name="guice" rev="3.0" conf="compile;runtime" />
+
+		<!-- jetty -->
+		<dependency transitive="false" org="org.eclipse.jetty" name="jetty-client" rev="7.6.1.v20120215" conf="compile;runtime" />
+		<dependency transitive="false" org="org.eclipse.jetty" name="jetty-http" rev="7.6.1.v20120215" conf="compile;runtime" />
+		<dependency transitive="false" org="org.eclipse.jetty" name="jetty-io" rev="7.6.1.v20120215" conf="compile;runtime" />
+		<dependency transitive="false" org="org.eclipse.jetty" name="jetty-server" rev="7.6.1.v20120215" conf="compile;runtime" />
+		<dependency transitive="false" org="org.eclipse.jetty" name="jetty-util" rev="7.6.1.v20120215" conf="compile;runtime" />
+		<dependency transitive="false" org="org.eclipse.jetty" name="jetty-xml" rev="7.6.1.v20120215" conf="compile;runtime" />
+		<dependency transitive="false" org="org.eclipse.jetty" name="jetty-continuation" rev="7.6.1.v20120215" conf="compile;runtime" />
+		
+		<!-- <dependency transitive="false" org="org.eclipse.jetty" name="jetty-jmx" rev="7.6.1.v20120215" conf="compile;runtime" /> -->
+		<!-- <dependency transitive="false" org="org.eclipse.jetty" name="jetty-servlet" rev="7.6.1.v20120215" conf="compile;runtime" /> -->
+		<!-- <dependency transitive="false" org="org.eclipse.jetty" name="jetty-webapp" rev="7.6.1.v20120215" conf="compile;runtime" /> -->
+		<!-- <dependency transitive="false" org="org.eclipse.jetty" name="jetty-plus" rev="7.6.1.v20120215" conf="compile;runtime" /> -->
+		<!-- <dependency transitive="false" org="org.eclipse.jetty" name="jetty-security" rev="7.6.1.v20120215" conf="compile;runtime" /> -->
+		<!-- <dependency transitive="false" org="org.eclipse.jetty" name="jetty-jndi" rev="7.6.1.v20120215" conf="compile;runtime" /> -->
+
+
+		<!-- specs -->
+		<dependency transitive="false" org="org.apache.geronimo.specs" name="geronimo-servlet_2.5_spec" rev="1.2" 
+			conf="compile;runtime" />
+
+		<!-- ant -->
+<!-- 		<dependency transitive="false" org="ant-contrib" name="ant-contrib" conf="tasks" rev="1.0b3" />
+		<dependency transitive="false" org="org.apache.ant" name="ant" conf="tasks;compile;runtime" rev="1.8.2" />
+		<dependency transitive="true" org="com.puppycrawl" name="checkstyle" conf="tasks" rev="5.3" />
+		<dependency transitive="true" org="net.sourceforge.cobertura" name="cobertura" conf="tasks" rev="1.9.4.1" />
+		<dependency transitive="true" org="edu.umd.cs" name="findbugs" conf="tasks" rev="1.3.9" />
+		<dependency transitive="true" org="edu.umd.cs" name="findbugs" conf="compile->annotations" rev="1.3.9" />
+ -->
+		<!--
+			Exclude deprecated com.google.collections. It's referenced from checkstyle,
+			however excluding seems not to break the functionality...
+		-->
+		<exclude org="com.google.common" module="google-collections" />
+
+	</dependencies>
+</ivy-module>
