@@ -1,12 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="adsng-core" default="init-ivy" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="ACReport" default="init-ivy" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 
-	<target name="init-ivy">
-		<echo taskname="deps" message="Downloading dependencies into ${lib.dir}" />
+	<property environment="env" />
+	<property name="ivy.home" value="${env.HOME}/.ant" />
+	<property name="ivy.install.version" value="2.2.0" />
+	<property name="ivy.jar.dir" value="${ivy.home}/lib" />
+	<property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar" />
+
+	<target name="check-ivy">
+		<available file="${ivy.jar.file}" property="ivy.jar.present"/>
+	</target>
+
+	<target name="download-ivy" depends="check-ivy" unless="ivy.jar.present">
+		<mkdir dir="${ivy.jar.dir}"/>
+		<!-- download Ivy from web site so that it can be used even without any special installation -->
+		<get src="http://repo2.maven.org/maven2/org/apache/ivy/ivy/${ivy.install.version}/ivy-${ivy.install.version}.jar" 
+			dest="${ivy.jar.file}" usetimestamp="true"/>
+	</target>
+
+	<target name="resolve" depends="download-ivy">
+		<path id="ivy.lib.path">
+			<fileset dir="${ivy.jar.dir}" includes="*.jar"/>
+		</path>
 		<ivy:configure file="ivysettings.xml" />
 		<ivy:resolve checkifchanged="false" file="ivy.xml" showProgress="false" conf="*" validate="true" />
-		<mkdir dir="${report.dir}/ivy" />
-		<ivy:report todir="${report.dir}/ivy" />
+		<ivy:retrieve symlink="true" pattern="lib/[conf]/[artifact]-[type]-[revision].[ext]" conf="*" sync="true" type="jar,bundle"/>
 	</target>
 
 </project>
