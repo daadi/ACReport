@@ -5,3 +5,5 @@
 *.swo
 /config.properties
 /lib
+/acreport.jar
+/classes

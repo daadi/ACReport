@@ -1,30 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="ACReport" default="init-ivy" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="ACReport" default="install" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 
+	<!-- ant/ivy settings -->
 	<property environment="env" />
 	<property name="ivy.home" value="${env.HOME}/.ant" />
 	<property name="ivy.install.version" value="2.2.0" />
 	<property name="ivy.jar.dir" value="${ivy.home}/lib" />
 	<property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar" />
 
-	<target name="check-ivy">
-		<available file="${ivy.jar.file}" property="ivy.jar.present"/>
+	<!-- classpaths -->
+	<path id="compile.classpath" description="Classpath for compiling">
+		<fileset dir="lib/compile" includes="**/*.jar" />
+	</path>
+
+	<path id="runtime.classpath" description="Runtime classpath">
+		<fileset dir="${lib.dir}/runtime" includes="**/*.jar" />
+	</path>
+
+	<!-- targets -->
+	<target name="clean">
+		<delete dir="classes" />
+		<delete file="acreport.jar" />
 	</target>
 
-	<target name="download-ivy" depends="check-ivy" unless="ivy.jar.present">
+
+	<target name="check-ivy-installed">
+		<available file="${ivy.jar.file}" property="ivy.installed"/>
+	</target>
+
+	<target name="install-ivy" depends="check-ivy-installed" unless="ivy.installed">
 		<mkdir dir="${ivy.jar.dir}"/>
-		<!-- download Ivy from web site so that it can be used even without any special installation -->
-		<get src="http://repo2.maven.org/maven2/org/apache/ivy/ivy/${ivy.install.version}/ivy-${ivy.install.version}.jar" 
-			dest="${ivy.jar.file}" usetimestamp="true"/>
+		<get 
+			src="http://repo2.maven.org/maven2/org/apache/ivy/ivy/${ivy.install.version}/ivy-${ivy.install.version}.jar" 
+			dest="${ivy.jar.file}" 
+			usetimestamp="true"/>
+		<fail message="This is not an error, just installed Ivy. In order to use it, please type 'ant install' again" />
 	</target>
 
-	<target name="resolve" depends="download-ivy">
+	<target name="resolve" depends="install-ivy">
 		<path id="ivy.lib.path">
 			<fileset dir="${ivy.jar.dir}" includes="*.jar"/>
 		</path>
 		<ivy:configure file="ivysettings.xml" />
 		<ivy:resolve checkifchanged="false" file="ivy.xml" showProgress="false" conf="*" validate="true" />
-		<ivy:retrieve symlink="true" pattern="lib/[conf]/[artifact]-[type]-[revision].[ext]" conf="*" sync="true" type="jar,bundle"/>
+		<ivy:retrieve symlink="false" pattern="lib/[conf]/[artifact]-[type]-[revision].[ext]" conf="*" sync="true" type="jar,bundle"/>
+	</target>
+
+	<target name="compile" description="Compile the source">
+		<mkdir dir="classes" />
+		<javac destdir="classes"
+				encoding="UTF-8"
+				nowarn="false"
+				debug="true"
+				deprecation="true"
+				target="1.6"
+				verbose="false"
+				fork="false"
+				source="1.6"
+				includeantruntime="false">
+			<src>
+				<pathelement location="src/main/java/" />
+			</src>
+			<classpath>
+				<path refid="compile.classpath" />
+			</classpath>
+			<compilerarg value="-Xlint:all,-path" />
+		</javac>
+	</target>
+
+	<target name="package" depends="compile">
+		<jar destfile="acreport.jar">
+			<manifest>
+				<attribute name="Main-Class" value="com.artisztikum.ac.Start" />
+			</manifest>
+			<zipgroupfileset dir="lib/runtime/" includes="*.jar" />
+			<fileset dir="classes" />
+			<fileset dir="src/main/resources/" />
+		</jar>
+	</target>
+
+	<target name="check-config">
+		<available file="config.properties" property="config.present"/>
+	</target>
+
+	<target name="config" depends="check-config" unless="config.present">
+		<copy file="config.sample.properties" tofile="config.properties" />
+		<echo taskname="install">
+A default configuration file was created as 'config.properties'.
+
+Please edit it to set the configuration!</echo>
+	</target>
+
+	<target name="install" depends="resolve, package, config" description="installs the app">
+		<echo taskname="install">Application installed.
+
+Type 'java -jar acreport.jar' to run.</echo>
 	</target>
 
 </project>
