@@ -50,7 +50,6 @@ public final class ACHttpClient
 			if (!client.isStarted()) {
 				try {
 					LOG.trace("Starting client");
-					// TODO set from config
 					client.setConnectorType(HttpClient.CONNECTOR_SELECT_CHANNEL);
 					client.setMaxConnectionsPerAddress(connectionsPerAddress);
 					client.setThreadPool(new QueuedThreadPool(threadSize));

@@ -37,7 +37,8 @@ public final class Start
 	/**
 	 * Writes an error message to STDERR, then quits.
 	 *
-	 * @param msg The message.
+	 * @param msg
+	 *            The message.
 	 */
 	private static void error(final String msg)
 	{
@@ -84,7 +85,6 @@ public final class Start
 		/* *****************************************************
 		 *
 		 * HTTP Client
-		 *
 		 */
 
 		// httpclient.host
@@ -97,40 +97,21 @@ public final class Start
 			apiHost = apiHost.substring(0, apiHost.length() - 1);
 		}
 
-		// httpclient.maxConnections
-		// Max parallel connections
-		final int maxConn;
-		try {
-			maxConn = Integer.parseInt(config.getProperty("httpclient.maxConnections", "20"));
-		} catch (final NumberFormatException e) {
-			error("Invalid value for parameter 'httpclient.maxConnections'" + e.getMessage());
-			throw new RuntimeException("Never thrown.", e);
-		}
-
-		// httpclient.threadPoolSize
-		// ThreadPool size
-		final int threadPoolSize;
-		try {
-			threadPoolSize = Integer.parseInt(config.getProperty("httpclient.threadPoolSize", "100"));
-		} catch (final NumberFormatException e) {
-			error("Invalid value for parameter 'httpclient.threadPoolSize'" + e.getMessage());
-			throw new RuntimeException("Never thrown.", e);
-		}
-
 		// create client
-		final ACHttpClient client = new ACHttpClient(apiHost, maxConn, threadPoolSize, true);
-
+		final ACHttpClient client = new ACHttpClient(apiHost, getIntValue(config, "httpclient.maxConnections", "20"),
+				getIntValue(config, "httpclient.threadPoolSize", "100"), true);
 
 		/* *****************************************************
 		 *
 		 * Ticket cache
-		 *
 		 */
 
 		// init caches
 		TicketCache.init(client);
 		UserCache.init(client);
-		MilestoneCache.init(client);
+
+		MilestoneCache.init(client, getLongValue(config, "cache.milestone.timeout", "30"),
+				getLongValue(config, "cache.milestone.size", "5000"));
 
 		// creating handlers
 		final HandlerList hc = new HandlerList();
@@ -148,7 +129,7 @@ public final class Start
 		hc.addHandler(new ProjectHomeHandler());
 
 		// creating the server
-		final Server server = new Server(8080);
+		final Server server = new Server(getIntValue(config, "server.port", "8080"));
 		server.setHandler(hc);
 
 		try {
@@ -173,4 +154,25 @@ public final class Start
 	private Start()
 	{
 	}
+
+	public static int getIntValue(final Properties cfg, final String key, final String defaultValue)
+	{
+		try {
+			return Integer.parseInt(cfg.getProperty(key, defaultValue));
+		} catch (final NumberFormatException e) {
+			error("Invalid value for parameter 'httpclient.threadPoolSize'" + e.getMessage());
+			throw new RuntimeException("Never thrown.", e);
+		}
+	}
+
+	public static long getLongValue(final Properties cfg, final String key, final String defaultValue)
+	{
+		try {
+			return Long.parseLong(cfg.getProperty(key, defaultValue));
+		} catch (final NumberFormatException e) {
+			error("Invalid value for parameter 'httpclient.threadPoolSize'" + e.getMessage());
+			throw new RuntimeException("Never thrown.", e);
+		}
+	}
+
 }

@@ -59,8 +59,7 @@ public final class MilestoneCache
 	/**
 	 * The cache. Every item expires after 30 minutes.
 	 */
-	private final Cache<Integer, Milestone> milestones = CacheBuilder.newBuilder()
-			.expireAfterWrite(30L, TimeUnit.MINUTES).concurrencyLevel(4).build();
+	private final Cache<Integer, Milestone> milestones;
 
 	/**
 	 * The client.
@@ -72,10 +71,22 @@ public final class MilestoneCache
 	 *
 	 * @param client
 	 *            The client.
+	 * @param cacheExpire
+	 *            The number of minutes after cached Milestones will expire.
+	 * @param maximumSize
+	 *            The maximum size of the cache.
 	 */
-	private MilestoneCache(final ACHttpClient client)
+	private MilestoneCache(final ACHttpClient client, final long cacheExpire, final long maximumSize)
 	{
 		this.client = client;
+		// @formatter:off
+		this.milestones =
+			CacheBuilder.newBuilder()
+				.expireAfterWrite(cacheExpire, TimeUnit.MINUTES)
+				.concurrencyLevel(4)
+				.maximumSize(maximumSize)
+				.build();
+		// @formatter:on
 	}
 
 	/**
@@ -136,13 +147,17 @@ public final class MilestoneCache
 	 *
 	 * @param client
 	 *            the client
+	 * @param cacheExpire
+	 *            The number of minutes after cached Milestones will expire.
+	 * @param maximumSize
+	 *            The maximum size of the cache.
 	 */
-	public static void init(final ACHttpClient client)
+	public static void init(final ACHttpClient client, final long cacheExpire, final long maximumSize)
 	{
 		if (null != singleton) {
 			throw new IllegalStateException("Already initialized!");
 		}
-		singleton = new MilestoneCache(client);
+		singleton = new MilestoneCache(client, cacheExpire, maximumSize);
 	}
 
 	/**

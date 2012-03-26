@@ -2,7 +2,6 @@ package com.artisztikum.ac;
 
 import java.io.StringReader;
 import java.io.StringWriter;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.transform.OutputKeys;
@@ -98,5 +97,4 @@ public final class Util
 	{
 		return new InputSource(new StringReader(src));
 	}
-
 }
