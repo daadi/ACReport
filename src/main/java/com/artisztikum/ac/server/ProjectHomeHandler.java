@@ -20,6 +20,7 @@ import org.eclipse.jetty.server.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.artisztikum.ac.DateTool;
 import com.artisztikum.ac.ac.Ticket;
 import com.artisztikum.ac.cache.TicketCache;
 
@@ -62,6 +63,7 @@ public final class ProjectHomeHandler extends AbstractUrlPatternHandler
 
 		final VelocityContext ctx = new VelocityContext();
 		ctx.put("tickets", tickets);
+		ctx.put("date", new DateTool());
 
 		final Template template;
 		try {

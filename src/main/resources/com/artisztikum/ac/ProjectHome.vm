@@ -35,7 +35,9 @@
 					<th>Responsible</th>
 					<th>Company</th>
 					<th>Milestone</th>
+					<th>Created</th>
 					<th>Created By</th>
+					<th>Updated</th>
 					<th>Updated By</th>
 				</tr>
 			</thead>
@@ -47,7 +49,9 @@
 					<td>#if ($ticket.getResponsible())$ticket.getResponsible().getName()#else n/a #end</td>
 					<td>#if ($ticket.getResponsible())$ticket.getResponsible().getCompany().getName() #else n/a #end</td>
 					<td>#if ($ticket.getMilestone())$ticket.getMilestone().getName() #else n/a #end</td>
+					<td>$date.simpleDateTime($ticket.getCreatedOn())</td>
 					<td>#if ($ticket.getCreatedBy())$ticket.getCreatedBy().getName()#else n/a #end</td>
+					<td>#if ($ticket.getUpdatedOn())$date.simpleDateTime($ticket.getUpdatedOn())#else$date.simpleDateTime($ticket.getCreatedOn())#end</td>
 					<td>#if ($ticket.getUpdatedBy())$ticket.getUpdatedBy().getName()#else n/a #end</td>
 				</tr>
 #end
