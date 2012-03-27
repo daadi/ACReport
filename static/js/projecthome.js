@@ -16,10 +16,12 @@ $(document).ready(function() {
 			"fnDrawCallback": function() {
 				//alert( 'DataTables has redrawn the table' );
 			}
-	} ).rowGrouping({
-			iGroupingColumnIndex: 3,
-			sGroupingColumnSortDirection: "asc"
-	});
+	} )
+	
+//	.rowGrouping({
+//			iGroupingColumnIndex: 3,
+//			sGroupingColumnSortDirection: "asc"
+//	});
 ;
 
 	

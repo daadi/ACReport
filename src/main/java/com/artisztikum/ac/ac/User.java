@@ -47,4 +47,9 @@ public class User
 	 * Company of the user.
 	 */
 	private Company company;
+	
+	public String getName()
+	{
+		return String.format("%s %s", getLastName(), getFirstName());
+	}
 }

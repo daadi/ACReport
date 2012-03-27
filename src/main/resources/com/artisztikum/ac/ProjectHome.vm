@@ -31,10 +31,12 @@
 			<thead>
 				<tr>
 					<th>#</th>
-					<th>name</th>
-					<th>responsible</th>
-					<th>company</th>
-					<th>milestone</th>
+					<th>Name</th>
+					<th>Responsible</th>
+					<th>Company</th>
+					<th>Milestone</th>
+					<th>Created By</th>
+					<th>Updated By</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -42,9 +44,11 @@
 				<tr>
 					<td>$ticket.getTicketId()</td>
 					<td><a href="$ticket.getPermalink()" target="_blank">$ticket.getName()</a></td>
-					<td>#if ($ticket.getResponsible())$ticket.getResponsible().getFirstName() $ticket.getResponsible().getLastName() #else n/a #end</td>
+					<td>#if ($ticket.getResponsible())$ticket.getResponsible().getName()#else n/a #end</td>
 					<td>#if ($ticket.getResponsible())$ticket.getResponsible().getCompany().getName() #else n/a #end</td>
 					<td>#if ($ticket.getMilestone())$ticket.getMilestone().getName() #else n/a #end</td>
+					<td>#if ($ticket.getCreatedBy())$ticket.getCreatedBy().getName()#else n/a #end</td>
+					<td>#if ($ticket.getUpdatedBy())$ticket.getUpdatedBy().getName()#else n/a #end</td>
 				</tr>
 #end
 			</tbody>

@@ -108,6 +108,30 @@ public final class Ticket extends AbstractCompletableProjectObject
 	}
 
 	/**
+	 * @return The {@link User} object representing the creator from the {@link UserCache}.
+	 */
+	public User getCreatedBy()
+	{
+		final Integer id = getCreatedById();
+		if (null == id) {
+			return null;
+		}
+		return UserCache.get().getUserByProject(getProjectId(), id);
+	}
+
+	/**
+	 * @return The {@link User} object representing the creator from the {@link UserCache}.
+	 */
+	public User getUpdatedBy()
+	{
+		final Integer id = getUpdatedById();
+		if (null == id) {
+			return null;
+		}
+		return UserCache.get().getUserByProject(getProjectId(), id);
+	}
+
+	/**
 	 * @return the {@link Milestone} object representing the milestone from the {@link MilestoneCache}.
 	 */
 	public Milestone getMilestone()

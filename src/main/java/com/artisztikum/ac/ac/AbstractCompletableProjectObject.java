@@ -9,11 +9,11 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import com.artisztikum.ac.ac.adapters.DateAdapter;
-import com.artisztikum.ac.ac.adapters.DateTimeAdapter;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import com.artisztikum.ac.ac.adapters.DateAdapter;
+import com.artisztikum.ac.ac.adapters.DateTimeAdapter;
 
 /**
  * Active Collab object that has a creation date, update date, due date and complete date. It can be completed.
@@ -37,8 +37,8 @@ public abstract class AbstractCompletableProjectObject extends AbstractProjectOb
 	/**
 	 * The user id of the creator.
 	 */
-	@XmlElement(name = "created_by")
-	private Integer createdBy;
+	@XmlElement(name = "created_by_id")
+	private Integer createdById;
 
 	/**
 	 * Last updated datetime.
@@ -50,8 +50,8 @@ public abstract class AbstractCompletableProjectObject extends AbstractProjectOb
 	/**
 	 * The user id of the last updater.
 	 */
-	@XmlElement(name = "updated_by")
-	private Integer updatedBy;
+	@XmlElement(name = "updated_by_id")
+	private Integer updatedById;
 
 	/**
 	 * Due on date.
@@ -70,6 +70,6 @@ public abstract class AbstractCompletableProjectObject extends AbstractProjectOb
 	/**
 	 * The user id of the closer.
 	 */
-	@XmlElement(name = "completed_by")
-	private Integer completedBy;
+	@XmlElement(name = "completed_by_id")
+	private Integer completedById;
 }
