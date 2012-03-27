@@ -1,25 +1,30 @@
 package com.artisztikum.ac;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
-public class DateTool {
+/**
+ * Helper for formatting dates from velocity templates.
+ *
+ * @author Adam DAJKA (dajka@artisztikum.hu)
+ *
+ */
+public class DateTool
+{
 
 	/**
 	 * Datetime format.
 	 */
-	private SimpleDateFormat dateFormat;
+	private static final SimpleDateFormat DATEFORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-	public DateTool() {
-		this.dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		
-		// TODO this is not the proper way to do this
-		this.dateFormat.setTimeZone(Calendar.getInstance().getTimeZone());
-	}
-
-	public String simpleDateTime(final Date date) {
-		return dateFormat.format(date);
+	/**
+	 * @param date
+	 *            The Date instance
+	 * @return The string representation in templates.
+	 */
+	public String simpleDateTime(final Date date)
+	{
+		return DATEFORMAT.format(date);
 	}
 
 }

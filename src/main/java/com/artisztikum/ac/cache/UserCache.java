@@ -185,14 +185,14 @@ public final class UserCache
 	{
 		final User r1 = getUserById(userId);
 		if (null != r1) {
-			LOG.debug("User {} found in cache", userId);
+			LOG.trace("User {} found in cache", userId);
 			return r1;
 		}
 
 		getPermalinksFromProjectPeople(projectId);
 
 		if (!permalinks.containsKey(userId)) {
-			LOG.debug("User {} is not associated with project {}", userId, projectId);
+			LOG.warn("User {} is not associated with project {}", userId, projectId);
 			return null;
 		}
 
