@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.artisztikum.ac.cache.MilestoneCache;
+import com.artisztikum.ac.cache.ProjectCache;
 import com.artisztikum.ac.cache.TicketCache;
 import com.artisztikum.ac.cache.UserCache;
 import com.artisztikum.ac.httpclient.ACHttpClient;
@@ -109,6 +110,7 @@ public final class Start
 		// init caches
 		TicketCache.init(client);
 		UserCache.init(client);
+		ProjectCache.init(client);
 
 		MilestoneCache.init(client, getLongValue(config, "cache.milestone.timeout", "30"),
 				getLongValue(config, "cache.milestone.size", "5000"));

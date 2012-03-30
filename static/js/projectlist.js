@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	$('#tickets').dataTable( {
+	$('#projects').dataTable( {
 			"bPaginate": false,
 			"bLengthChange": false,
 			"bFilter": true,
@@ -9,13 +9,9 @@ $(document).ready(function() {
 			"bAutoWidth": true,
 			"sDom": 'W<"clear">lfrtip',
 			"oColumnFilterWidgets": {
-				aiExclude: [ 0, 1, 5, 7 ],
+				aiExclude: [ 0, 1, 3 ],
 				sSeparator: ',  ',
 				bGroupTerms: false
-			}
-	});
-	
-	$('#projects').change(function() {
-		document.location = "/projects/" + $(this).val() + "/";
+			},			
 	});
 });

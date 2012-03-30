@@ -171,4 +171,19 @@ public final class ACHttpClient
 	{
 		this.apiKey.remove();
 	}
+
+	/**
+	 * @return The user id of the current user (from {@link #apiKey}).
+	 */
+	public Integer getUserId()
+	{
+		if (null == this.apiKey.get()) {
+			throw new IllegalStateException("No api key set!");
+		}
+		try {
+			return Integer.valueOf(this.apiKey.get().split("-")[0]);
+		} catch (final NumberFormatException e) {
+			throw new RuntimeException("Cannot get User ID from API Key " + this.apiKey.get(), e);
+		}
+	}
 }

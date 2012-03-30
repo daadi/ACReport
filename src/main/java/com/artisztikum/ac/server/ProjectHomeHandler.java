@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 
 import com.artisztikum.ac.DateTool;
 import com.artisztikum.ac.ac.Ticket;
+import com.artisztikum.ac.cache.ProjectCache;
 import com.artisztikum.ac.cache.TicketCache;
 
 /**
@@ -64,6 +65,7 @@ public final class ProjectHomeHandler extends AbstractUrlPatternHandler
 		final VelocityContext ctx = new VelocityContext();
 		ctx.put("tickets", tickets);
 		ctx.put("date", new DateTool());
+		ctx.put("projects", ProjectCache.get().getProjects());
 
 		final Template template;
 		try {

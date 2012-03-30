@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<title></title>
+		<link href="/static/css/acreport.css" rel="stylesheet" type="text/css">
+		<link href="/static/css/jquery.dataTables.css" rel="stylesheet" type="text/css">
+		<link href="/static/css/jquery.dataTables.css" rel="stylesheet" type="text/css">
+		<link href="/static/css/demo_table.css" rel="stylesheet" type="text/css">
+		<link href="/static/css/ColumnFilterWidgets.css" rel="stylesheet" type="text/css">
+		<script type='text/javascript' src='/static/js/jquery-1.4.2.min.js'></script>            
+		<script type="text/javascript" src="/static/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="/static/js/ColumnFilterWidgets.js"></script>
+		<script type="text/javascript" src="/static/js/jquery.dataTables.rowGrouping.js"></script>
+		<script type="text/javascript" src="/static/js/projectlist.js"></script>
+	</head>
+	<body>
+
+		<table id="projects">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Name</th>
+					<th>Status</th>
+					<th>AC link</th>
+				</tr>
+			</thead>
+			<tbody>
+#foreach( $project in $projects )
+				<tr>
+					<td>$project.getId()</td>
+					<td><a href="/projects/$project.getId()" target="_self">$project.getName()</a></td>
+					<td>$project.getStatus()</td>
+					<td><a href="$project.getPermalink()" target="_blank">$project.getPermalink()</a></td>
+				</tr>
+#end
+			</tbody>
+		</table>
+	</body>
+</html>

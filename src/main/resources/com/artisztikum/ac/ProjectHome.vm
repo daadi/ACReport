@@ -15,17 +15,12 @@
 	</head>
 	<body>
 
-		<table id="summary">
-			<thead>
-				<tr>
-					<th>Company</th>
-					<th>Tickets</th>
-				</tr>
-			</thead>
-			<tbody>
-			</tbody>
-		</table>
 
+		<select id="projects">
+#foreach( $project in $projects )
+			<option value="$project.getId()">$project.getName()</option>
+#end		
+		</select>
 
 		<table id="tickets">
 			<thead>

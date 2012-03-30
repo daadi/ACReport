@@ -8,12 +8,19 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.eclipse.jetty.client.ContentExchange;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.Velocity;
+import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.ResourceNotFoundException;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.artisztikum.ac.ac.Project;
+import com.artisztikum.ac.cache.ProjectCache;
 import com.artisztikum.ac.httpclient.ACHttpClient;
 
 /**
@@ -55,14 +62,30 @@ public final class ProjectListHandler extends AbstractUrlPatternHandler
 	{
 		LOG.debug("Processing url: {}", target);
 
-		final ContentExchange ex = client.sendGetWait("/projects/");
-
-		response.setContentType("text/xml;charset=utf-8");
+		final Iterable<Project> projects = ProjectCache.get().getProjects();
 
 		response.setStatus(200);
-		baseRequest.setHandled(true);
+		response.setContentType("text/html;charset=utf-8");
 
-		response.getWriter().println(ex.getResponseContent());
+		final VelocityContext ctx = new VelocityContext();
+		ctx.put("projects", projects);
+
+		final Template template;
+		try {
+			template = Velocity.getTemplate("/com/artisztikum/ac/ProjectList.vm");
+		} catch (final ResourceNotFoundException rnfe) {
+			throw new RuntimeException(rnfe);
+		} catch (final ParseErrorException pee) {
+			throw new RuntimeException(pee);
+		} catch (final MethodInvocationException mie) {
+			throw new RuntimeException(mie);
+		} catch (final Exception e) {
+			throw new RuntimeException(e);
+		}
+
+		template.merge(ctx, response.getWriter());
+
+		baseRequest.setHandled(true);
 	}
 
 	@Override
