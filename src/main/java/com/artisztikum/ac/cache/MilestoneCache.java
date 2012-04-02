@@ -97,7 +97,7 @@ public final class MilestoneCache
 	 */
 	private void loadMilestonesOfProject(final Integer projectId)
 	{
-		LOG.debug("Loading milestones of project {}", projectId);
+		LOG.debug("Fetching milestones of project {}", projectId);
 
 		final ContentExchange ex = client.sendGetWait("/projects/%d/milestones/", projectId);
 
@@ -131,7 +131,7 @@ public final class MilestoneCache
 	 */
 	public Milestone getMilestone(final Integer projectId, final Integer milestoneId)
 	{
-		LOG.debug("Getting milestone {} from project {}", milestoneId, projectId);
+		LOG.trace("Getting milestone {} from project {}", milestoneId, projectId);
 		final Milestone result = milestones.getIfPresent(milestoneId);
 		if (null != result) {
 			return result;
