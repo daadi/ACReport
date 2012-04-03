@@ -1,4 +1,16 @@
 body *
 {
-	font-family: "Lucida Grande", "Verdana", "Arial", sans-serif; 
+	font-family: "Lucida Grande", "Verdana", "Arial", sans-serif;
+	font-size: 11px;
+}
+
+h1
+{
+	font-size: 300%;
+	color: #6D98AB;
+}
+
+.error
+{
+	color: red;
 }
