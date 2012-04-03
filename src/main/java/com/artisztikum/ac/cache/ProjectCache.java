@@ -22,10 +22,12 @@ import org.w3c.dom.NodeList;
 import com.artisztikum.ac.Util;
 import com.artisztikum.ac.ac.Project;
 import com.artisztikum.ac.httpclient.ACHttpClient;
+import com.google.common.base.Predicate;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.collect.Iterables;
 
-public class ProjectCache
+public final class ProjectCache
 {
 
 	/**
@@ -130,6 +132,23 @@ public class ProjectCache
 		} catch (final JAXBException e) {
 			throw new RuntimeException("Error de-serializing ticket", e);
 		}
+	}
+
+	/**
+	 * @param projectId
+	 *            The id of the project
+	 * @return The project with the given projectId
+	 */
+	public Project getProject(final Integer projectId)
+	{
+		return Iterables.find(getProjects(), new Predicate<Project>() {
+			@Override
+			public boolean apply(final Project input)
+			{
+				return input.getId().equals(projectId);
+			}
+		});
+
 	}
 
 }

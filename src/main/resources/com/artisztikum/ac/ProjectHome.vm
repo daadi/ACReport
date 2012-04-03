@@ -17,8 +17,8 @@
 
 
 		<select id="projects">
-#foreach( $project in $projects )
-			<option value="$project.getId()">$project.getName()</option>
+#foreach( $p in $projects )
+			<option value="$p.getId()" #if($project==$p)selected="selected"#end>$p.getName()</option>
 #end		
 		</select>
 
@@ -34,6 +34,7 @@
 					<th>Created By</th>
 					<th>Updated</th>
 					<th>Updated By</th>
+					<th>Due on</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -48,6 +49,7 @@
 					<td>#if ($ticket.getCreatedBy())$ticket.getCreatedBy().getName()#else n/a #end</td>
 					<td>#if ($ticket.getUpdatedOn())$date.simpleDateTime($ticket.getUpdatedOn())#else$date.simpleDateTime($ticket.getCreatedOn())#end</td>
 					<td>#if ($ticket.getUpdatedBy())$ticket.getUpdatedBy().getName()#else n/a #end</td>
+					<td>#if ($ticket.getDueOn())$date.simpleDate($ticket.getDueOn())#else#end</td>
 				</tr>
 #end
 			</tbody>

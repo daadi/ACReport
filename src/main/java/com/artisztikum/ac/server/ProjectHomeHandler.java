@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.artisztikum.ac.DateTool;
+import com.artisztikum.ac.ac.Project;
 import com.artisztikum.ac.ac.Ticket;
 import com.artisztikum.ac.cache.ProjectCache;
 import com.artisztikum.ac.cache.TicketCache;
@@ -57,6 +58,7 @@ public final class ProjectHomeHandler extends AbstractUrlPatternHandler
 	{
 		LOG.debug("Processing url {}", target);
 
+		final Project project = ProjectCache.get().getProject(Integer.valueOf(m.group(1)));
 		final List<Ticket> tickets = TicketCache.get().getTickets(m.group(1));
 
 		response.setStatus(200);
@@ -65,6 +67,7 @@ public final class ProjectHomeHandler extends AbstractUrlPatternHandler
 		final VelocityContext ctx = new VelocityContext();
 		ctx.put("tickets", tickets);
 		ctx.put("date", new DateTool());
+		ctx.put("project", project);
 		ctx.put("projects", ProjectCache.get().getProjects());
 
 		final Template template;

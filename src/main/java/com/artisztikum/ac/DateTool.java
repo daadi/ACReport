@@ -9,13 +9,18 @@ import java.util.Date;
  * @author Adam DAJKA (dajka@artisztikum.hu)
  *
  */
-public class DateTool
+public final class DateTool
 {
 
 	/**
 	 * Datetime format.
 	 */
-	private static final SimpleDateFormat DATEFORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	private static final SimpleDateFormat DATETIMEFORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+	/**
+	 * Date format.
+	 */
+	private static final SimpleDateFormat DATEFORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
 	/**
 	 * @param date
@@ -24,7 +29,16 @@ public class DateTool
 	 */
 	public String simpleDateTime(final Date date)
 	{
-		return DATEFORMAT.format(date);
+		return DATETIMEFORMAT.format(date);
 	}
 
+	/**
+	 * @param date
+	 *            The Date instance
+	 * @return The string representation in templates.
+	 */
+	public String simpleDate(final Date date)
+	{
+		return DATEFORMAT.format(date);
+	}
 }
