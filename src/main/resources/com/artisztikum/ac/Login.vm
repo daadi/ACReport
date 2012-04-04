@@ -1,16 +1,16 @@
 <html>
 	<head>
 		<title>Login to ${APIHost}</title>
+		<script type='text/javascript' src='/static/js/jquery-1.4.2.min.js'></script>            
+		<script type="text/javascript" src="/static/js/jquery.cookies.2.2.0.js"></script>
+		<script type="text/javascript" src="/static/js/common.js"></script>
 		<link href="/static/css/acreport.css" rel="stylesheet" type="text/css">
 		<link href="/static/css/login.css" rel="stylesheet" type="text/css">
 		<script type="text/javascript">
-function setApiKey()
-{
-	var apiKey = document.getElementById("apiKey").value;
-	var date = new Date();
-	date.setTime(date.getTime()+(14*24*60*60*1000));
-	document.cookie = "apikey="+apiKey+"; expires="+date.toGMTString()+"; path=/";
-}
+			function setApiKey()
+			{
+				storeApiKey($("#apiKey").val());
+			}
 		</script>
 	</head>
 	<body>

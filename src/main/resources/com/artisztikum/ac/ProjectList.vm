@@ -9,6 +9,8 @@
 		<link href="/static/css/ColumnFilterWidgets.css" rel="stylesheet" type="text/css">
 		<script type='text/javascript' src='/static/js/jquery-1.4.2.min.js'></script>            
 		<script type="text/javascript" src="/static/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="/static/js/jquery.cookies.2.2.0.js"></script>
+		<script type="text/javascript" src="/static/js/common.js"></script>
 		<script type="text/javascript" src="/static/js/ColumnFilterWidgets.js"></script>
 		<script type="text/javascript" src="/static/js/jquery.dataTables.rowGrouping.js"></script>
 		<script type="text/javascript" src="/static/js/projectlist.js"></script>
