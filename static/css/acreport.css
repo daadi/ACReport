@@ -1,3 +1,15 @@
+a
+{
+	color: #00f;
+	text-decoration: underline;
+}
+
+body
+{
+	padding: 0;
+	margin: 0;
+}
+
 body *
 {
 	font-family: "Lucida Grande", "Verdana", "Arial", sans-serif;
@@ -14,3 +26,4 @@ h1
 {
 	color: red;
 }
+

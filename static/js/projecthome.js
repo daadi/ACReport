@@ -7,7 +7,7 @@ $(document).ready(function() {
 			"bInfo": true,
 			"bStateSave": false,
 			"bAutoWidth": true,
-			"sDom": 'W<"clear">lfrit',
+			"sDom": 'W<"clear">lrit',
 			"oColumnFilterWidgets": {
 				aiExclude: [ 0, 1, 5, 7 ],
 				sSeparator: ',  ',

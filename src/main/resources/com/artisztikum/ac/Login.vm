@@ -23,6 +23,9 @@ function setApiKey()
 			<input id="apiKey" type="text" id="apiKey" #if(${apiKey})value="${apiKey}"#end/>
 			<input id="submit" type="submit" value="Done" onclick="javascript:setApiKey();"/>
 		</form>
+		<div id="contact">
+			<a href="https://github.com/daadi/ACReport" target="_blank">Active Collab Ticket Reporter</a>
+		</div>
 	</body>
 </html>
 
