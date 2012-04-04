@@ -9,8 +9,7 @@ function setApiKey()
 	var apiKey = document.getElementById("apiKey").value;
 	var date = new Date();
 	date.setTime(date.getTime()+(14*24*60*60*1000));
-	var expires = "expires="+date.toGMTString();
-	document.cookie = "apikey="+apiKey+"; expires="+expires+"; path=/";
+	document.cookie = "apikey="+apiKey+"; expires="+date.toGMTString()+"; path=/";
 }
 		</script>
 	</head>
