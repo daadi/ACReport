@@ -140,21 +140,20 @@ public final class TicketCache
 			}
 
 			if (!allTickets.containsKey(id) || !allTickets.get(id).getVersion().equals(Integer.parseInt(ticketVersion))) {
-				LOG.debug("Ticket {} (version {}) fetching...", ticketId, ticketVersion);
 				reqs.put(id, client.sendGet("/projects/%s/tickets/%s", projectId, ticketId));
 
 			} else {
-				LOG.debug("Ticket {} (version {}) found in cache", ticketId, ticketVersion);
 				result.add(allTickets.get(id));
 			}
 		}
+		LOG.debug("Cache: {}, Requests: {}", result.size(), reqs.size());
 
 		final Map<String, ContentExchange> finished = new HashMap<String, ContentExchange>();
 		while (!reqs.isEmpty()) {
 
 			synchronized (this) {
 				try {
-					wait(1000);
+					wait(2000);
 				} catch (final InterruptedException e) {
 					throw new RuntimeException(e);
 				}

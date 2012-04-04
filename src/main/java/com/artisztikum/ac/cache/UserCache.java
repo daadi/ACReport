@@ -183,6 +183,10 @@ public final class UserCache
 	 */
 	public User getUserByProject(final Integer projectId, final Integer userId)
 	{
+		if (null != userId && Integer.valueOf(userId) == 0) {
+			return null;
+		}
+		
 		final User r1 = getUserById(userId);
 		if (null != r1) {
 			LOG.trace("User {} found in cache", userId);
