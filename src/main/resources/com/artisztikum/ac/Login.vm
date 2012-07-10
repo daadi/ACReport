@@ -24,7 +24,7 @@ function setApiKey()
 			<input id="submit" type="submit" value="Done" onclick="javascript:setApiKey();"/>
 		</form>
 		<div id="contact">
-			<a href="https://github.com/daadi/ACReport" target="_blank">Active Collab Ticket Reporter</a>
+			<a href="https://github.com/daadi/ACReport" target="_blank">Active Collab Task Reporter</a>
 		</div>
 	</body>
 </html>

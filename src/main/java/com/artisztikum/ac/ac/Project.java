@@ -1,5 +1,11 @@
 package com.artisztikum.ac.ac;
 
+import javax.xml.bind.annotation.XmlAccessOrder;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorOrder;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -10,41 +16,29 @@ import lombok.EqualsAndHashCode;
  *
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class Project extends AbstractProjectObject
+@EqualsAndHashCode
+@XmlAccessorOrder(XmlAccessOrder.UNDEFINED)
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Project
 {
+	/**
+	 * Project id.
+	 */
+	private Long id;
+
 	/**
 	 * Project name.
 	 */
 	private String name;
 
 	/**
-	 * Project overview.
-	 */
-	private String overview;
-
-	/**
 	 * Project status.
 	 */
+	@XmlElement(name = "status_verbose")
 	private String status;
 
 	/**
 	 * Permalink of the project. (points to the Active Collab web interface).
 	 */
 	private String permalink;
-
-	/**
-	 * User id of the leader.
-	 */
-	private Integer leaderId;
-
-	/**
-	 * Company id of the client.
-	 */
-	private Integer companyId;
-
-	/**
-	 * Project group id.
-	 */
-	private Integer groupId;
 }

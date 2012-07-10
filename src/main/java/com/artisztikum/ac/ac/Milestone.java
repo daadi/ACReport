@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * Represents an Active Collab milestone.
@@ -17,8 +18,9 @@ import lombok.EqualsAndHashCode;
 @XmlAccessorOrder(XmlAccessOrder.UNDEFINED)
 @XmlAccessorType(XmlAccessType.FIELD)
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class Milestone extends AbstractCompletableProjectObject
+@ToString
+@EqualsAndHashCode
+public class Milestone
 {
 	/**
 	 * Name of the milestone.
@@ -26,22 +28,18 @@ public class Milestone extends AbstractCompletableProjectObject
 	private String name;
 
 	/**
-	 * Body of the milestone.
+	 * Default.
 	 */
-	private String body;
+	public Milestone()
+	{
+	}
 
 	/**
-	 * State of the milestone.
+	 * @param name
+	 *            The name of this Milestone.
 	 */
-	private Integer state;
-
-	/**
-	 * Visibility of the milestone.
-	 */
-	private Integer visibility;
-
-	/**
-	 * Version of the milestone.
-	 */
-	private Integer version;
+	public Milestone(final String name)
+	{
+		this.name = name;
+	}
 }

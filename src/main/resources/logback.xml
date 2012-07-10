@@ -6,14 +6,14 @@
 
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-			<level>DEBUG</level>
+			<level>TRACE</level>
 		</filter>
 		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 			<Pattern>%d{HH:mm:ss.SSS} [%thread] %p %c{10} - %m%n%ex{full}</Pattern>
 		</encoder>
 	</appender>
 
-	<root level="debug">
+	<root level="trace">
 		<appender-ref ref="STDOUT"/>
 	</root>
 

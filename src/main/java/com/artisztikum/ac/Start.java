@@ -12,10 +12,9 @@ import org.eclipse.jetty.server.handler.HandlerList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.artisztikum.ac.cache.MilestoneCache;
+import com.artisztikum.ac.cache.CompanyCache;
 import com.artisztikum.ac.cache.ProjectCache;
-import com.artisztikum.ac.cache.TicketCache;
-import com.artisztikum.ac.cache.UserCache;
+import com.artisztikum.ac.cache.TaskCache;
 import com.artisztikum.ac.httpclient.ACHttpClient;
 import com.artisztikum.ac.server.ApiKeyCheckerHandler;
 import com.artisztikum.ac.server.FileServerHandler;
@@ -104,16 +103,14 @@ public final class Start
 
 		/* *****************************************************
 		 *
-		 * Ticket cache
+		 * Task cache
 		 */
 
 		// init caches
-		TicketCache.init(client);
-		UserCache.init(client);
+		TaskCache.init(client);
+		CompanyCache.init(client, getLongValue(config, "cache.company.timeout", "1800000"),
+				getLongValue(config, "cache.company.size", "5000"));
 		ProjectCache.init(client);
-
-		MilestoneCache.init(client, getLongValue(config, "cache.milestone.timeout", "30"),
-				getLongValue(config, "cache.milestone.size", "5000"));
 
 		// creating handlers
 		final HandlerList hc = new HandlerList();
@@ -157,6 +154,18 @@ public final class Start
 	{
 	}
 
+	/**
+	 * Gets an {@code int} value from a {@link Properties}.
+	 *
+	 * @param cfg
+	 *            The {@link Properties}.
+	 * @param key
+	 *            The config key
+	 * @param defaultValue
+	 *            The default value {@link Properties#getProperty(String)} returns {@code null} for {@code key}.
+	 * @return The value as {@code long} for {@code key} in {@code cfg} or if it is {@code null}, then
+	 *         {@code defaultValue}.
+	 */
 	public static int getIntValue(final Properties cfg, final String key, final String defaultValue)
 	{
 		try {
@@ -167,6 +176,18 @@ public final class Start
 		}
 	}
 
+	/**
+	 * Gets an {@code long} value from a {@link Properties}.
+	 *
+	 * @param cfg
+	 *            The {@link Properties}.
+	 * @param key
+	 *            The config key
+	 * @param defaultValue
+	 *            The default value {@link Properties#getProperty(String)} returns {@code null} for {@code key}.
+	 * @return The value as {@code long} for {@code key} in {@code cfg} or if it is {@code null}, then
+	 *         {@code defaultValue}.
+	 */
 	public static long getLongValue(final Properties cfg, final String key, final String defaultValue)
 	{
 		try {

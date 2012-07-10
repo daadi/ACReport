@@ -41,6 +41,15 @@ public final class ACHttpClient
 
 	/**
 	 * Public constructor. Initializes the jetty client
+	 *
+	 * @param apiHost
+	 *            The host of the AC API (with protocol)
+	 * @param connectionsPerAddress
+	 *            Number of maximum connections to the AC API
+	 * @param threadSize
+	 *            Number of client threads
+	 * @param trustAll
+	 *            Flag for accepting certificates
 	 */
 	public ACHttpClient(final String apiHost, final int connectionsPerAddress, final int threadSize,
 			final boolean trustAll)
@@ -91,24 +100,10 @@ public final class ACHttpClient
 	}
 
 	/**
-	 * Gets the URL of an API request by path_info as a {@link String#format(String, Object...)} pattern and its args.
-	 *
-	 * @param pathInfo
-	 *            The format string of the {@code path_info} parameter (e.g. {@code /projects/%s/tickets/%s}.
-	 * @param args
-	 *            The args for the format string.
-	 * @return The full URL with {@link #AC_HOST} and token id.
-	 */
-	private String getURL(final String pathInfo, final Object... args)
-	{
-		return String.format("%s/api.php?token=%s&path_info=%s", apiHost, apiKey.get(), String.format(pathInfo, args));
-	}
-
-	/**
 	 * Sends a GET request and wait for the response.
 	 *
 	 * @param pathInfo
-	 *            The format string of the {@code path_info} parameter (e.g. {@code /projects/%s/tickets/%s}.
+	 *            The format string of the {@code path_info} parameter (e.g. {@code /projects/%s/tasks/%s}.
 	 * @param args
 	 *            The args for the format string.
 	 * @return The resulted {@link ContentExchange} instance with the response already initialized.
@@ -128,7 +123,7 @@ public final class ACHttpClient
 	 * Sends a GET request and does not wait for the response.
 	 *
 	 * @param pathInfo
-	 *            The format string of the {@code path_info} parameter (e.g. {@code /projects/%s/tickets/%s}.
+	 *            The format string of the {@code path_info} parameter (e.g. {@code /projects/%s/tasks/%s}.
 	 * @param args
 	 *            The args for the format string.
 	 * @return The resulted {@link ContentExchange} instance with the response not initialized.
@@ -137,7 +132,9 @@ public final class ACHttpClient
 	{
 		final ContentExchange ex = new ContentExchange();
 		ex.setMethod("GET");
-		ex.setURL(getURL(pathInfo, args));
+		LOG.trace("{}/api.php?path_info={}&auth_api_token=***", apiHost, String.format(pathInfo, args));
+		ex.setURL(String.format("%s/api.php?auth_api_token=%s&path_info=%s", apiHost, apiKey.get(),
+				String.format(pathInfo, args)));
 		return send(ex);
 	}
 
@@ -175,13 +172,13 @@ public final class ACHttpClient
 	/**
 	 * @return The user id of the current user (from {@link #apiKey}).
 	 */
-	public Integer getUserId()
+	public Long getUserId()
 	{
 		if (null == this.apiKey.get()) {
 			throw new IllegalStateException("No api key set!");
 		}
 		try {
-			return Integer.valueOf(this.apiKey.get().split("-")[0]);
+			return Long.valueOf(this.apiKey.get().split("-")[0]);
 		} catch (final NumberFormatException e) {
 			throw new RuntimeException("Cannot get User ID from API Key " + this.apiKey.get(), e);
 		}

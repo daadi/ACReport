@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<task>
+	<id>94523</id>
+	<name><![CDATA[Dummy Task]]></name>
+	<permalink><![CDATA[https://ac.dummy.com/projects/251/tasks/400]]></permalink>
+	<created_on>
+		<timestamp>1338547674</timestamp>
+	</created_on>
+	<created_by>
+		<id>1338</id>
+		<first_name><![CDATA[Jane]]></first_name>
+		<last_name><![CDATA[Doe]]></last_name>
+		<company_id>144</company_id>
+	</created_by>
+	<updated_on>
+		<timestamp>1338897179</timestamp>
+	</updated_on>
+	<due_on>
+		<timestamp>1338508800</timestamp>
+	</due_on>
+	<updated_by>
+		<id>1325</id>
+		<first_name><![CDATA[Bobby]]></first_name>
+		<last_name><![CDATA[Ewing]]></last_name>
+		<company_id>144</company_id>
+	</updated_by>
+	<state>3</state>
+	<assignee>
+		<id>980</id>
+		<first_name><![CDATA[John]]></first_name>
+		<last_name><![CDATA[Doe]]></last_name>
+		<company_id>111</company_id>
+	</assignee>
+	<body><![CDATA[Lorem ipsum dolor sit amet...]]></body>
+	<version>5</version>
+	<project_id>251</project_id>
+	<milestone>
+		<id>107606</id>
+		<name><![CDATA[Dummy Milestone]]></name>
+	</milestone>
+	<task_id>400</task_id>
+</task>

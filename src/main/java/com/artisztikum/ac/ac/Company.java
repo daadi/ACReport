@@ -21,7 +21,7 @@ public class Company
 	/**
 	 * The company id.
 	 */
-	private Integer id;
+	private Long id;
 
 	/**
 	 * The company name.

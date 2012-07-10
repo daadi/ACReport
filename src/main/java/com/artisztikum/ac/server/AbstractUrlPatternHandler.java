@@ -13,6 +13,8 @@ import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Response;
 import org.eclipse.jetty.util.component.AbstractLifeCycle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Catches and handles a request based on a regular expression.
@@ -22,6 +24,11 @@ import org.eclipse.jetty.util.component.AbstractLifeCycle;
  */
 public abstract class AbstractUrlPatternHandler extends AbstractLifeCycle implements Handler
 {
+	/**
+	 * Logger.
+	 */
+	private static final Logger LOG = LoggerFactory.getLogger(AbstractUrlPatternHandler.class);
+
 	/**
 	 * The pattern which will trigger calling
 	 * {@link #doHandle(Matcher, String, Request, HttpServletRequest, HttpServletResponse)}.
@@ -43,12 +50,14 @@ public abstract class AbstractUrlPatternHandler extends AbstractLifeCycle implem
 	public final void handle(final String target, final Request baseRequest, final HttpServletRequest request,
 			final HttpServletResponse response) throws IOException, ServletException
 	{
+		LOG.info("Processing URL '{}'", target);
 		final Matcher m = urlPattern.matcher(target);
 		if (!m.matches()) {
 			return;
 		}
 
 		doHandle(m, target, baseRequest, request, response);
+		LOG.info("Request {} done", target);
 	}
 
 	/**

@@ -20,14 +20,14 @@ import org.eclipse.jetty.server.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.artisztikum.ac.DateTool;
+import com.artisztikum.ac.VelocityUtil;
 import com.artisztikum.ac.ac.Project;
-import com.artisztikum.ac.ac.Ticket;
+import com.artisztikum.ac.ac.Task;
 import com.artisztikum.ac.cache.ProjectCache;
-import com.artisztikum.ac.cache.TicketCache;
+import com.artisztikum.ac.cache.TaskCache;
 
 /**
- * Main handler for the ticket list.
+ * Main handler for the task list.
  *
  * @author Adam DAJKA (dajka@artisztikum.hu)
  *
@@ -37,6 +37,7 @@ public final class ProjectHomeHandler extends AbstractUrlPatternHandler
 	/**
 	 * Logger.
 	 */
+	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory.getLogger(ProjectHomeHandler.class);
 
 	/**
@@ -56,17 +57,15 @@ public final class ProjectHomeHandler extends AbstractUrlPatternHandler
 	protected void doHandle(final Matcher m, final String target, final Request baseRequest,
 			final HttpServletRequest request, final HttpServletResponse response) throws IOException, ServletException
 	{
-		LOG.debug("Processing url {}", target);
-
-		final Project project = ProjectCache.get().getProject(Integer.valueOf(m.group(1)));
-		final List<Ticket> tickets = TicketCache.get().getTickets(m.group(1));
+		final Project project = ProjectCache.get().getProject(Long.valueOf(m.group(1)));
+		final List<Task> tasks = TaskCache.get().getTasks(m.group(1));
 
 		response.setStatus(200);
 		response.setContentType("text/html;charset=utf-8");
 
 		final VelocityContext ctx = new VelocityContext();
-		ctx.put("tickets", tickets);
-		ctx.put("date", new DateTool());
+		ctx.put("tasks", tasks);
+		ctx.put("util", new VelocityUtil());
 		ctx.put("project", project);
 		ctx.put("projects", ProjectCache.get().getProjects());
 
@@ -86,7 +85,6 @@ public final class ProjectHomeHandler extends AbstractUrlPatternHandler
 		template.merge(ctx, response.getWriter());
 
 		baseRequest.setHandled(true);
-
 	}
 
 	@Override

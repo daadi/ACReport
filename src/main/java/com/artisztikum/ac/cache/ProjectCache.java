@@ -6,10 +6,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.transform.Source;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -27,12 +24,18 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Iterables;
 
-public final class ProjectCache
+/**
+ * Stores {@link Project}s.
+ *
+ * @author Adam DAJKA (dajka@artisztikum.hu)
+ *
+ */
+public final class ProjectCache extends AbstractUnmarshaller<Project>
 {
-
 	/**
 	 * Logger.
 	 */
+	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory.getLogger(ProjectCache.class);
 
 	/**
@@ -43,7 +46,7 @@ public final class ProjectCache
 	/**
 	 * The cache. Projects by User.
 	 */
-	private final Cache<Integer, Iterable<Project>> cache;
+	private final Cache<Long, Iterable<Project>> cache;
 
 	/**
 	 * The client.
@@ -51,27 +54,22 @@ public final class ProjectCache
 	private final ACHttpClient client;
 
 	/**
-	 * {@link JAXBContext} for unmarhalling {@link Project}s.
+	 * @param client
+	 *            the {@link ACHttpClient} for loading the cache.
 	 */
-	private static JAXBContext projectJC;
-	static {
-		try {
-			projectJC = JAXBContext.newInstance(Project.class);
-		} catch (final JAXBException e1) {
-			throw new RuntimeException(e1);
-		}
-	}
-
-	public ProjectCache(final ACHttpClient client)
+	private ProjectCache(final ACHttpClient client)
 	{
 		this.client = client;
 		cache = CacheBuilder.newBuilder().concurrencyLevel(4).expireAfterWrite(10L, TimeUnit.MINUTES)
 				.maximumSize(5000L).build();
 	}
 
+	/**
+	 * @return The {@link Project}s found in AC API for the given user.
+	 */
 	public Iterable<Project> getProjects()
 	{
-		final Integer userID = client.getUserId();
+		final Long userID = client.getUserId();
 		final Iterable<Project> result = cache.getIfPresent(userID);
 		if (null != result) {
 			return result;
@@ -92,7 +90,7 @@ public final class ProjectCache
 		final List<Project> projectsOfUser = new ArrayList<Project>();
 		for (int i = 0; i < nl.getLength(); i++) {
 			Project milestone;
-			milestone = unmarshalProject(new DOMSource(nl.item(i)));
+			milestone = unmarshal(new DOMSource(nl.item(i)));
 			projectsOfUser.add(milestone);
 		}
 		cache.put(userID, projectsOfUser);
@@ -100,6 +98,12 @@ public final class ProjectCache
 		return projectsOfUser;
 	}
 
+	/**
+	 * Static init.
+	 *
+	 * @param client
+	 *            The {@link ACHttpClient} to use.
+	 */
 	public static void init(final ACHttpClient client)
 	{
 		if (null != singleton) {
@@ -108,6 +112,9 @@ public final class ProjectCache
 		singleton = new ProjectCache(client);
 	}
 
+	/**
+	 * @return The singleton instance.
+	 */
 	public static ProjectCache get()
 	{
 		if (null == singleton) {
@@ -117,29 +124,11 @@ public final class ProjectCache
 	}
 
 	/**
-	 * Unmarshals a {@link Source} into a {@link Project} with {@link #projectJC}.
-	 *
-	 * @param src
-	 *            The {@link Source}
-	 * @return The unmarshalled {@link Project} instance.
-	 */
-	public static Project unmarshalProject(final Source src)
-	{
-		try {
-			final Unmarshaller u = projectJC.createUnmarshaller();
-			final JAXBElement<Project> doc = u.unmarshal(src, Project.class);
-			return doc.getValue();
-		} catch (final JAXBException e) {
-			throw new RuntimeException("Error de-serializing ticket", e);
-		}
-	}
-
-	/**
 	 * @param projectId
 	 *            The id of the project
 	 * @return The project with the given projectId
 	 */
-	public Project getProject(final Integer projectId)
+	public Project getProject(final Long projectId)
 	{
 		return Iterables.find(getProjects(), new Predicate<Project>() {
 			@Override
@@ -151,4 +140,19 @@ public final class ProjectCache
 
 	}
 
+	@Override
+	protected JAXBContext getMarshallerContext()
+	{
+		try {
+			return JAXBContext.newInstance(Project.class);
+		} catch (final JAXBException e1) {
+			throw new RuntimeException(e1);
+		}
+	}
+
+	@Override
+	protected Class<Project> getTargetClass()
+	{
+		return Project.class;
+	}
 }

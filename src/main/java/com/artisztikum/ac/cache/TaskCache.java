@@ -12,10 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -28,48 +25,34 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import com.artisztikum.ac.Util;
-import com.artisztikum.ac.ac.AbstractCompletableProjectObject;
-import com.artisztikum.ac.ac.AbstractProjectObject;
-import com.artisztikum.ac.ac.Ticket;
-import com.artisztikum.ac.ac.TicketAssignee;
+import com.artisztikum.ac.ac.Milestone;
+import com.artisztikum.ac.ac.Task;
+import com.artisztikum.ac.ac.User;
 import com.artisztikum.ac.httpclient.ACHttpClient;
 
 /**
- * Contains the {@link Ticket}s.
+ * Contains the {@link Task}s.
  *
  * @author Adam DAJKA (dajka@artisztikum.hu)
  *
  */
-public final class TicketCache
+public final class TaskCache extends AbstractUnmarshaller<Task>
 {
 	/**
 	 * Logger.
 	 */
-	private static final Logger LOG = LoggerFactory.getLogger(TicketCache.class);
+	private static final Logger LOG = LoggerFactory.getLogger(TaskCache.class);
 
 	/**
 	 * Singleton instance.
 	 */
-	private static TicketCache singleton;
+	private static TaskCache singleton;
 
 	/**
-	 * {@link JAXBContext} for unmarshalling {@link Ticket}s.
+	 * Task cache. Configurable maximum size.
 	 */
-	private static JAXBContext ticketJC;
-	static {
-		try {
-			ticketJC = JAXBContext.newInstance(Ticket.class, AbstractCompletableProjectObject.class,
-					AbstractProjectObject.class, TicketAssignee.class);
-		} catch (final JAXBException e1) {
-			throw new RuntimeException(e1);
-		}
-	}
-
-	/**
-	 * Ticket cache. Configurable maximum size.
-	 */
-	private final Map<String, Ticket> allTickets = Collections
-			.<String, Ticket> synchronizedMap(new LinkedHashMap<String, Ticket>() {
+	private final Map<String, Task> allTasks = Collections
+			.<String, Task> synchronizedMap(new LinkedHashMap<String, Task>() {
 				/**
 				 * Serial.
 				 */
@@ -78,7 +61,7 @@ public final class TicketCache
 				private static final int MAX_SIZE = 10000;
 
 				@Override
-				protected boolean removeEldestEntry(final Map.Entry<String, Ticket> eldest)
+				protected boolean removeEldestEntry(final Map.Entry<String, Task> eldest)
 				{
 					return size() > MAX_SIZE;
 				}
@@ -93,28 +76,28 @@ public final class TicketCache
 	 * @param client
 	 *            Http client to use.
 	 */
-	public TicketCache(final ACHttpClient client)
+	public TaskCache(final ACHttpClient client)
 	{
 		this.client = client;
 	}
 
 	/**
-	 * Gets all tickets for the given projects.
+	 * Gets all tasks for the given project.
 	 *
 	 * @param projectId
 	 *            The id of the project
-	 * @return All tickets for the given projects.
+	 * @return All tasks for the given projects.
 	 */
-	public List<Ticket> getTickets(final String projectId)
+	public List<Task> getTasks(final String projectId)
 	{
-		// get the fresh list of tickets from the Active Collab API
-		final ContentExchange ex = client.sendGetWait("/projects/%s/tickets/", projectId);
-		LOG.debug("Got ticket xml");
+		// get the fresh list of tasks from the Active Collab API
+		final ContentExchange ex = client.sendGetWait("/projects/%s/tasks/", projectId);
+		LOG.debug("Got tasks xml");
 
-		// parse the response => get the list of tickets
+		// parse the response => get the list of tasks
 		final NodeList nl;
 		try {
-			nl = (NodeList) Util.getXpath("//tickets/ticket").evaluate(
+			nl = (NodeList) Util.getXpath("//tasks/task").evaluate(
 					new InputSource(new StringReader(ex.getResponseContent())), XPathConstants.NODESET);
 		} catch (final XPathExpressionException e) {
 			throw new RuntimeException(e);
@@ -122,28 +105,28 @@ public final class TicketCache
 			throw new RuntimeException(e);
 		}
 
-		final List<Ticket> result = new ArrayList<Ticket>();
+		final List<Task> result = new ArrayList<Task>();
 
 		final Map<String, ContentExchange> reqs = new HashMap<String, ContentExchange>();
 		for (int i = 0; i < nl.getLength(); i++) {
 			final Node n = nl.item(i);
 
 			final String id;
-			final String ticketId;
-			final String ticketVersion;
+			final String taskId;
+			final String taskVersion;
 			try {
 				id = (String) Util.getXpath("id").evaluate(n, XPathConstants.STRING);
-				ticketId = (String) Util.getXpath("ticket_id").evaluate(n, XPathConstants.STRING);
-				ticketVersion = (String) Util.getXpath("version").evaluate(n, XPathConstants.STRING);
+				taskId = (String) Util.getXpath("task_id").evaluate(n, XPathConstants.STRING);
+				taskVersion = (String) Util.getXpath("version").evaluate(n, XPathConstants.STRING);
 			} catch (final XPathExpressionException e) {
 				throw new RuntimeException(e);
 			}
 
-			if (!allTickets.containsKey(id) || !allTickets.get(id).getVersion().equals(Integer.parseInt(ticketVersion))) {
-				reqs.put(id, client.sendGet("/projects/%s/tickets/%s", projectId, ticketId));
+			if (!allTasks.containsKey(id) || !allTasks.get(id).getVersion().equals(Long.parseLong(taskVersion))) {
+				reqs.put(id, client.sendGet("/projects/%s/tasks/%s", projectId, taskId));
 
 			} else {
-				result.add(allTickets.get(id));
+				result.add(allTasks.get(id));
 			}
 		}
 		LOG.debug("Cache: {}, Requests: {}", result.size(), reqs.size());
@@ -174,34 +157,16 @@ public final class TicketCache
 
 		for (final Entry<String, ContentExchange> entry : finished.entrySet()) {
 			try {
-				final Ticket fetchedTicket = unmarshalTicket(new StreamSource(new StringReader(entry.getValue()
+				final Task fetchedTask = unmarshal(new StreamSource(new StringReader(entry.getValue()
 						.getResponseContent())));
-				result.add(fetchedTicket);
-				allTickets.put(entry.getKey(), fetchedTicket);
+				result.add(fetchedTask);
+				allTasks.put(entry.getKey(), fetchedTask);
 			} catch (final UnsupportedEncodingException e) {
 				throw new RuntimeException(e);
 			}
 		}
 
 		return result;
-	}
-
-	/**
-	 * Unmarshals a {@link Source} into a {@link Ticket} with {@link #ticketJC}.
-	 *
-	 * @param src
-	 *            The {@link Source}
-	 * @return The unmarshalled {@link Ticket} instance.
-	 */
-	public static Ticket unmarshalTicket(final Source src)
-	{
-		try {
-			final Unmarshaller u = ticketJC.createUnmarshaller();
-			final JAXBElement<Ticket> doc = u.unmarshal(src, Ticket.class);
-			return doc.getValue();
-		} catch (final JAXBException e) {
-			throw new RuntimeException("Error de-serializing ticket", e);
-		}
 	}
 
 	/**
@@ -216,13 +181,13 @@ public final class TicketCache
 			throw new IllegalStateException("Already initialized");
 		}
 
-		singleton = new TicketCache(client);
+		singleton = new TaskCache(client);
 	}
 
 	/**
 	 * @return the singleton instance.
 	 */
-	public static TicketCache get()
+	public static TaskCache get()
 	{
 		if (null == singleton) {
 			throw new IllegalStateException("Not initialized yet");
@@ -231,4 +196,19 @@ public final class TicketCache
 		return singleton;
 	}
 
+	@Override
+	protected Class<Task> getTargetClass()
+	{
+		return Task.class;
+	}
+
+	@Override
+	protected JAXBContext getMarshallerContext()
+	{
+		try {
+			return JAXBContext.newInstance(Task.class, Milestone.class, User.class);
+		} catch (final JAXBException e1) {
+			throw new RuntimeException(e1);
+		}
+	}
 }

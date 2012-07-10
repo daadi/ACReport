@@ -22,7 +22,7 @@
 #end		
 		</select>
 
-		<table id="tickets">
+		<table id="tasks">
 			<thead>
 				<tr>
 					<th>#</th>
@@ -38,18 +38,18 @@
 				</tr>
 			</thead>
 			<tbody>
-#foreach( $ticket in $tickets )
+#foreach( $task in $tasks )
 				<tr>
-					<td>$ticket.getTicketId()</td>
-					<td><a href="$ticket.getPermalink()" target="_blank">$ticket.getName()</a></td>
-					<td>#if ($ticket.getResponsible())$ticket.getResponsible().getName()#else n/a #end</td>
-					<td>#if ($ticket.getResponsible())$ticket.getResponsible().getCompany().getName() #else n/a #end</td>
-					<td>#if ($ticket.getMilestone())$ticket.getMilestone().getName() #else n/a #end</td>
-					<td>$date.simpleDateTime($ticket.getCreatedOn())</td>
-					<td>#if ($ticket.getCreatedBy())$ticket.getCreatedBy().getName()#else n/a #end</td>
-					<td>#if ($ticket.getUpdatedOn())$date.simpleDateTime($ticket.getUpdatedOn())#else$date.simpleDateTime($ticket.getCreatedOn())#end</td>
-					<td>#if ($ticket.getUpdatedBy())$ticket.getUpdatedBy().getName()#else n/a #end</td>
-					<td>#if ($ticket.getDueOn())$date.simpleDate($ticket.getDueOn())#else#end</td>
+					<td>$task.getTaskId()</td>
+					<td><a href="$task.getPermalink()" target="_blank">$task.getName()</a></td>
+					<td>$util.getName($task.getAssignee())</td>
+					<td>$util.getCompany($task.getAssignee())</td>
+					<td>$util.getMilestone($task.getMilestone())</td>
+					<td>$util.simpleDateTime($task.getCreatedOn())</td>
+					<td>$util.getCompany($task.getCreatedBy())</td>
+					<td>#if ($task.getUpdatedOn())$util.simpleDateTime($task.getUpdatedOn())#else$util.simpleDateTime($task.getCreatedOn())#end</td>
+					<td>$util.getCompany($task.getUpdatedBy())</td>
+					<td>#if ($task.getDueOn())$util.simpleDate($task.getDueOn())#else#end</td>
 				</tr>
 #end
 			</tbody>

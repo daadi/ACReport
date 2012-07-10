@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	$('#tickets').dataTable( {
+	$('#tasks').dataTable( {
 			"bPaginate": false,
 			"bLengthChange": false,
 			"bFilter": true,

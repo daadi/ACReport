@@ -34,12 +34,8 @@ public final class ProjectListHandler extends AbstractUrlPatternHandler
 	/**
 	 * Logger.
 	 */
+	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory.getLogger(ProjectListHandler.class);
-
-	/**
-	 * The client.
-	 */
-	private final ACHttpClient client;
 
 	/**
 	 * The server instance.
@@ -53,15 +49,12 @@ public final class ProjectListHandler extends AbstractUrlPatternHandler
 	public ProjectListHandler(final ACHttpClient client)
 	{
 		super(Pattern.compile("^/projects[/]*$"));
-		this.client = client;
 	}
 
 	@Override
 	public void doHandle(final Matcher m, final String target, final Request baseRequest,
 			final HttpServletRequest request, final HttpServletResponse response) throws IOException, ServletException
 	{
-		LOG.debug("Processing url: {}", target);
-
 		final Iterable<Project> projects = ProjectCache.get().getProjects();
 
 		response.setStatus(200);
