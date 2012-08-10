@@ -1,6 +1,5 @@
 <html>
 	<head>
-		<title>Login to ${APIHost}</title>
 		<script type='text/javascript' src='/static/js/jquery-1.4.2.min.js'></script>            
 		<script type="text/javascript" src="/static/js/jquery.cookies.2.2.0.js"></script>
 		<script type="text/javascript" src="/static/js/common.js"></script>
@@ -12,6 +11,7 @@
 				storeApiKey($("#apiKey").val());
 			}
 		</script>
+		<title>Login - Active Collab Task Reporter</title>
 	</head>
 	<body>
 		<h1>Login to ${APIHost}</h1>
