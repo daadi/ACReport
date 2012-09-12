@@ -27,6 +27,7 @@
 				<tr>
 					<th>#</th>
 					<th>Name</th>
+					<th>Priority</th>
 					<th>Responsible</th>
 					<th>Company</th>
 					<th>Milestone</th>
@@ -42,6 +43,7 @@
 				<tr>
 					<td>$ticket.getTicketId()</td>
 					<td><a href="$ticket.getPermalink()" target="_blank">$ticket.getName()</a></td>
+					<td>$ticket.getPriority()</td>
 					<td>#if ($ticket.getResponsible())$ticket.getResponsible().getName()#else n/a #end</td>
 					<td>#if ($ticket.getResponsible())$ticket.getResponsible().getCompany().getName() #else n/a #end</td>
 					<td>#if ($ticket.getMilestone())$ticket.getMilestone().getName() #else n/a #end</td>

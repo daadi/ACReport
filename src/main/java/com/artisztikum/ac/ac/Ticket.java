@@ -49,6 +49,11 @@ public final class Ticket extends AbstractCompletableProjectObject
 	private String name;
 
 	/**
+	 * Priority of the ticket.
+	 */
+	private Long priority;
+	
+	/**
 	 * Body (opening comment).
 	 */
 	private String body;
