@@ -9,7 +9,7 @@ $(document).ready(function() {
 			"bAutoWidth": true,
 			"sDom": 'W<"clear">lfrit',
 			"oColumnFilterWidgets": {
-				aiExclude: [ 0, 1, 5, 7 ],
+				aiExclude: [ 0, 1, 6, 8 ],
 				sSeparator: ',  ',
 				bGroupTerms: false
 			}

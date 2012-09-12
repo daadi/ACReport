@@ -41,6 +41,11 @@ public final class Task
 	private String name;
 
 	/**
+	 * Priority of the task.
+	 */
+	private Long priority;
+	
+	/**
 	 * Body (opening comment).
 	 */
 	private String body;

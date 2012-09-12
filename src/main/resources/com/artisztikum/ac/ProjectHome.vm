@@ -29,6 +29,7 @@
 				<tr>
 					<th>#</th>
 					<th>Name</th>
+					<th>Priority</th>
 					<th>Responsible</th>
 					<th>Company</th>
 					<th>Milestone</th>
@@ -44,6 +45,7 @@
 				<tr>
 					<td>$task.getTaskId()</td>
 					<td><a href="$task.getPermalink()" target="_blank">$task.getName()</a></td>
+					<td>$task.getPriority()</td>
 					<td>$util.getName($task.getAssignee())</td>
 					<td>$util.getCompany($task.getAssignee())</td>
 					<td>$util.getMilestone($task.getMilestone())</td>
