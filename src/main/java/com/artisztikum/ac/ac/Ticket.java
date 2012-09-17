@@ -10,14 +10,16 @@ import javax.xml.bind.annotation.XmlAccessorOrder;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import com.artisztikum.ac.ac.adapters.TicketPriorityAdapter;
 import com.artisztikum.ac.cache.MilestoneCache;
 import com.artisztikum.ac.cache.UserCache;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * An ActiveCollab ticket.
@@ -51,7 +53,8 @@ public final class Ticket extends AbstractCompletableProjectObject
 	/**
 	 * Priority of the ticket.
 	 */
-	private Long priority;
+	@XmlJavaTypeAdapter(TicketPriorityAdapter.class)
+	private TicketPriority priority;
 	
 	/**
 	 * Body (opening comment).
