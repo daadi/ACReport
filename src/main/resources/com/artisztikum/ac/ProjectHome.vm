@@ -45,7 +45,7 @@
 				<tr>
 					<td>$task.getTaskId()</td>
 					<td><a href="$task.getPermalink()" target="_blank">$task.getName()</a></td>
-					<td>$task.getPriority()</td>
+					<td><span class="priority $task.getPriority()">$task.getPriority()<span></td>
 					<td>$util.getName($task.getAssignee())</td>
 					<td>$util.getCompany($task.getAssignee())</td>
 					<td>$util.getMilestone($task.getMilestone())</td>

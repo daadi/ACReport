@@ -8,9 +8,12 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorOrder;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import com.artisztikum.ac.ac.adapters.TaskPriorityAdapter;
 
 /**
  * An ActiveCollab task.
@@ -43,8 +46,9 @@ public final class Task
 	/**
 	 * Priority of the task.
 	 */
-	private Long priority;
-	
+	@XmlJavaTypeAdapter(TaskPriorityAdapter.class)
+	private TaskPriority priority;
+
 	/**
 	 * Body (opening comment).
 	 */

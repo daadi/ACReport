@@ -28,3 +28,24 @@ h1
 	color: red;
 }
 
+span.priority {
+	padding: 3px;
+	display: block;
+}
+
+span.Highest {
+	background-color: #f33;
+}
+
+span.High {
+	background-color: #f60;
+}
+
+span.Low {
+	background-color: #36c;
+}
+
+span.Lowest {
+	background-color: #9cf;
+}
+
