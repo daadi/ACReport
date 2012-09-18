@@ -32,7 +32,6 @@ public final class ApiKeyCheckerHandler extends AbstractLifeCycle implements Han
 	/**
 	 * Logger.
 	 */
-	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory.getLogger(ApiKeyCheckerHandler.class);
 
 	/**
@@ -59,6 +58,8 @@ public final class ApiKeyCheckerHandler extends AbstractLifeCycle implements Han
 	public void handle(final String target, final Request baseRequest, final HttpServletRequest request,
 			final HttpServletResponse response) throws IOException, ServletException
 	{
+		LOG.info("Processing URL '{}'", target);
+
 		// to be sure, we start with empty api key
 		client.resetApiKey();
 

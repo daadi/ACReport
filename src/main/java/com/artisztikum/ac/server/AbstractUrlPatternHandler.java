@@ -50,7 +50,6 @@ public abstract class AbstractUrlPatternHandler extends AbstractLifeCycle implem
 	public final void handle(final String target, final Request baseRequest, final HttpServletRequest request,
 			final HttpServletResponse response) throws IOException, ServletException
 	{
-		LOG.info("Processing URL '{}'", target);
 		final Matcher m = urlPattern.matcher(target);
 		if (!m.matches()) {
 			return;

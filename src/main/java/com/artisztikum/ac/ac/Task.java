@@ -104,6 +104,14 @@ public final class Task
 	@XmlElement(name = "due_on")
 	private ACDate dueOn;
 
+	/**
+	 * Overwrite the values for empty subelements to {@code null} in order to easily tested in the velocity macros.
+	 *
+	 * @param u
+	 *            The unmarshaller
+	 * @param parent
+	 *            The parent
+	 */
 	public void afterUnmarshal(final Unmarshaller u, final Object parent)
 	{
 		if (null == assignee.getId()) {
