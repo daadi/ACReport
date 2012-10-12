@@ -50,9 +50,9 @@
 					<td>$util.getCompany($task.getAssignee())</td>
 					<td>$util.getMilestone($task.getMilestone())</td>
 					<td>$util.simpleDateTime($task.getCreatedOn())</td>
-					<td>$util.getCompany($task.getCreatedBy())</td>
+					<td>$util.getName($task.getCreatedBy())</td>
 					<td>#if ($task.getUpdatedOn())$util.simpleDateTime($task.getUpdatedOn())#else$util.simpleDateTime($task.getCreatedOn())#end</td>
-					<td>$util.getCompany($task.getUpdatedBy())</td>
+					<td>$util.getName($task.getUpdatedBy())</td>
 					<td>#if ($task.getDueOn())$util.simpleDate($task.getDueOn())#else#end</td>
 				</tr>
 #end
