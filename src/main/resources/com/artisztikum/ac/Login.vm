@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<script type='text/javascript' src='/static/js/jquery-1.4.2.min.js'></script>            
+		<script type='text/javascript' src='/static/js/jquery-1.8.2.min.js'></script>            
 		<script type="text/javascript" src="/static/js/jquery.cookies-2.2.0.js"></script>
 		<script type="text/javascript" src="/static/js/common.js"></script>
 		<link href="/static/css/acreport.css" rel="stylesheet" type="text/css">
