@@ -7,11 +7,6 @@ $(document).ready(function() {
 			"bInfo": true,
 			"bStateSave": false,
 			"bAutoWidth": true,
-			"sDom": 'W<"clear">lrit',
-			"oColumnFilterWidgets": {
-				aiExclude: [ 0, 1, 3 ],
-				sSeparator: ',  ',
-				bGroupTerms: false
-			},			
+			"sDom": 'W<"clear">lrit'			
 	});
 });

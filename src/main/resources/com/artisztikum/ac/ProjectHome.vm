@@ -2,17 +2,19 @@
 <html>
 	<head>
 		<title>$project.getName() - Active Collab Task Reporter</title>
-		<link href="/static/css/acreport.css" rel="stylesheet" type="text/css">
+
 		<link href="/static/css/jquery.dataTables.css" rel="stylesheet" type="text/css">
-		<link href="/static/css/jquery.dataTables.css" rel="stylesheet" type="text/css">
-		<link href="/static/css/demo_table.css" rel="stylesheet" type="text/css">
 		<link href="/static/css/ColumnFilterWidgets.css" rel="stylesheet" type="text/css">
+
+		<link href="/static/css/demo_table.css" rel="stylesheet" type="text/css">
+		<link href="/static/css/acreport.css" rel="stylesheet" type="text/css">
+
 		<script type='text/javascript' src='/static/js/jquery-1.4.2.min.js'></script>            
-		<script type="text/javascript" src="/static/js/jquery.dataTables.min.js"></script>
-		<script type="text/javascript" src="/static/js/jquery.cookies.2.2.0.js"></script>
-		<script type="text/javascript" src="/static/js/common.js"></script>
+		<script type="text/javascript" src="/static/js/jquery.dataTables-1.9.0.min.js"></script>
+		<script type="text/javascript" src="/static/js/jquery.cookies-2.2.0.js"></script>
 		<script type="text/javascript" src="/static/js/ColumnFilterWidgets.js"></script>
-		<script type="text/javascript" src="/static/js/jquery.dataTables.rowGrouping.js"></script>
+
+		<script type="text/javascript" src="/static/js/common.js"></script>
 		<script type="text/javascript" src="/static/js/projecthome.js"></script>
 	</head>
 	<body>
