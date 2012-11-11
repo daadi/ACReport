@@ -157,8 +157,9 @@ public final class TaskCache extends AbstractUnmarshaller<Task>
 
 		for (final Entry<String, ContentExchange> entry : finished.entrySet()) {
 			try {
-				final Task fetchedTask = unmarshal(new StreamSource(new StringReader(entry.getValue()
-						.getResponseContent())));
+				final ContentExchange ce = entry.getValue();
+				final Task fetchedTask = unmarshal(new StreamSource(new StringReader(ce.getResponseContent())));
+				fetchedTask.setUrl(String.format("%s://%s/%s", ce.getScheme(), ce.getAddress(), ce.getRequestURI()));
 				result.add(fetchedTask);
 				allTasks.put(entry.getKey(), fetchedTask);
 			} catch (final UnsupportedEncodingException e) {

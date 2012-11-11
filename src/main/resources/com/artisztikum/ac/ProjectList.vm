@@ -31,7 +31,7 @@
 				<tr>
 					<td>$project.getId()</td>
 					<td><a href="/projects/$project.getId()" target="_self">$project.getName()</a></td>
-					<td>$project.getStatus()</td>
+					<td>#if ($project.getStatus()) $project.getStatus() #else n/a #end</td>
 					<td><a href="$project.getPermalink()" target="_blank">$project.getPermalink()</a></td>
 				</tr>
 #end

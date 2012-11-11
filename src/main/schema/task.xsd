@@ -1,0 +1,245 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="task">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element type="xs:int" name="id"/>
+        <xs:element type="xs:string" name="name"/>
+        <xs:element type="xs:string" name="permalink"/>
+        <xs:element name="urls" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:string" name="view"/>
+              <xs:element type="xs:string" name="edit"/>
+              <xs:element type="xs:string" name="delete"/>
+              <xs:element type="xs:string" name="archive"/>
+              <xs:element type="xs:string" name="trash"/>
+              <xs:element type="xs:string" name="update_priority"/>
+              <xs:element type="xs:string" name="open"/>
+              <xs:element type="xs:string" name="complete"/>
+              <xs:element type="xs:string" name="manage_assignees"/>
+              <xs:element type="xs:string" name="update_category"/>
+              <xs:element type="xs:string" name="update_label"/>
+              <xs:element type="xs:string" name="subscriptions"/>
+              <xs:element type="xs:string" name="subscribe"/>
+              <xs:element type="xs:string" name="unsubscribe"/>
+              <xs:element type="xs:string" name="add_to_favorites"/>
+              <xs:element type="xs:string" name="remove_from_favorites"/>
+              <xs:element type="xs:string" name="reschedule"/>
+              <xs:element type="xs:string" name="tracking"/>
+              <xs:element type="xs:string" name="update_milestone"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="permissions" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:byte" name="can_edit"/>
+              <xs:element type="xs:byte" name="can_delete"/>
+              <xs:element type="xs:byte" name="can_archive"/>
+              <xs:element type="xs:byte" name="can_unarchive"/>
+              <xs:element type="xs:byte" name="can_trash"/>
+              <xs:element type="xs:byte" name="can_untrash"/>
+              <xs:element type="xs:byte" name="can_change_visibility"/>
+              <xs:element type="xs:byte" name="can_change_complete_status"/>
+              <xs:element type="xs:byte" name="can_comment"/>
+              <xs:element type="xs:byte" name="can_manage_tracking"/>
+              <xs:element type="xs:byte" name="can_move"/>
+              <xs:element type="xs:byte" name="can_copy"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element type="xs:string" name="body" minOccurs="0" maxOccurs="1"/>
+        <xs:element type="xs:string" name="body_formatted" minOccurs="0" maxOccurs="1"/>
+        <xs:element type="xs:string" name="created_on"/>
+        <xs:element name="created_by"  minOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:int" name="id"/>
+              <xs:element type="xs:string" name="name" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:string" name="permalink" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:byte" name="state" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:string" name="first_name"/>
+              <xs:element type="xs:string" name="last_name"/>
+              <xs:element type="xs:string" name="display_name" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:string" name="short_display_name" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:string" name="email" minOccurs="0" maxOccurs="1"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element type="xs:string" name="updated_on"/>
+        <xs:element name="updated_by">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:int" name="id"/>
+              <xs:element type="xs:string" name="name" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:string" name="permalink"/>
+              <xs:element type="xs:byte" name="state" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:string" name="first_name"/>
+              <xs:element type="xs:string" name="last_name"/>
+              <xs:element type="xs:string" name="display_name" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:string" name="short_display_name" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:string" name="email" minOccurs="0" maxOccurs="1"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element type="xs:byte" name="state" minOccurs="0" maxOccurs="1"/>
+        <xs:element type="xs:byte" name="visibility" minOccurs="0" maxOccurs="1"/>
+        <xs:element type="xs:byte" name="is_completed" minOccurs="0" maxOccurs="1"/>
+        <xs:element type="xs:string" name="completed_on" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="completed_by" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:int" name="id"/>
+              <xs:element type="xs:string" name="name" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:string" name="permalink"/>
+              <xs:element type="xs:byte" name="state" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:string" name="first_name"/>
+              <xs:element type="xs:string" name="last_name"/>
+              <xs:element type="xs:string" name="display_name" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:string" name="short_display_name" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:string" name="email" minOccurs="0" maxOccurs="1"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element type="xs:byte" name="priority" minOccurs="0" maxOccurs="1"/>
+        <xs:element type="xs:string" name="due_on"/>
+        <xs:element type="xs:string" name="comments_url" minOccurs="0" maxOccurs="1"/>
+        <xs:element type="xs:int" name="comments_count" minOccurs="0" maxOccurs="1"/>
+        <xs:element type="xs:byte" name="is_locked" minOccurs="0" maxOccurs="1"/>
+        <xs:element type="xs:string" name="subtasks_url" minOccurs="0" maxOccurs="1"/>
+        <xs:element type="xs:int" name="total_subtasks" minOccurs="0" maxOccurs="1"/>
+        <xs:element type="xs:int" name="open_subtasks" minOccurs="0" maxOccurs="1"/>
+        <xs:element type="xs:int" name="completed_subtasks" minOccurs="0" maxOccurs="1"/>
+        <xs:element type="xs:string" name="attachments_url" minOccurs="0" maxOccurs="1"/>
+        <xs:element type="xs:string" name="attachments" minOccurs="0" maxOccurs="1"/>
+        <xs:element type="xs:int" name="attachments_count" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="assignee">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:int" name="id"/>
+              <xs:element type="xs:string" name="name" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:string" name="permalink"/>
+              <xs:element type="xs:byte" name="state" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:string" name="first_name"/>
+              <xs:element type="xs:string" name="last_name"/>
+              <xs:element type="xs:string" name="display_name" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:string" name="short_display_name" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:string" name="email" minOccurs="0" maxOccurs="1"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="delegated_by" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:int" name="id"/>
+              <xs:element type="xs:string" name="name" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:string" name="permalink"/>
+              <xs:element type="xs:byte" name="state" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:string" name="first_name"/>
+              <xs:element type="xs:string" name="last_name"/>
+              <xs:element type="xs:string" name="display_name" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:string" name="short_display_name" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:string" name="email" minOccurs="0" maxOccurs="1"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="other_assignees" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="other_assignee" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:short" name="id"/>
+                    <xs:element type="xs:string" name="name"/>
+                    <xs:element type="xs:string" name="permalink"/>
+                    <xs:element type="xs:byte" name="state"/>
+                    <xs:element type="xs:string" name="first_name"/>
+                    <xs:element type="xs:string" name="last_name"/>
+                    <xs:element type="xs:string" name="display_name"/>
+                    <xs:element type="xs:string" name="short_display_name"/>
+                    <xs:element type="xs:string" name="email"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element type="xs:int" name="category_id" minOccurs="0" maxOccurs="1"/>
+        <xs:element type="xs:string" name="category" minOccurs="0" maxOccurs="1"/>
+        <xs:element type="xs:string" name="label" minOccurs="0" maxOccurs="1"/>
+        <xs:element type="xs:byte" name="user_is_subscribed" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="subscribers" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="subscriber" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:short" name="id"/>
+                    <xs:element type="xs:string" name="display_name"/>
+                    <xs:element type="xs:string" name="short_display_name"/>
+                    <xs:element type="xs:string" name="permalink"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element type="xs:byte" name="is_favorite" minOccurs="0" maxOccurs="1"/>
+        <xs:element type="xs:int" name="object_time" minOccurs="0" maxOccurs="1"/>
+        <xs:element type="xs:int" name="object_expenses" minOccurs="0" maxOccurs="1"/>
+        <xs:element type="xs:string" name="estimate" minOccurs="0" maxOccurs="1"/>
+        <xs:element type="xs:int" name="version" minOccurs="0" maxOccurs="1"/>
+        <xs:element type="xs:int" name="project_id" minOccurs="0" maxOccurs="1"/>
+        <xs:element type="xs:int" name="milestone_id" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="project" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:short" name="id"/>
+              <xs:element type="xs:string" name="name"/>
+              <xs:element type="xs:string" name="permalink"/>
+              <xs:element type="xs:byte" name="state"/>
+              <xs:element type="xs:byte" name="is_completed"/>
+              <xs:element type="xs:int" name="category_id"/>
+              <xs:element type="xs:int" name="label_id"/>
+              <xs:element type="xs:int" name="company_id"/>
+              <xs:element type="xs:byte" name="is_member"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="milestone">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:int" name="id" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:string" name="name" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:string" name="permalink" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:byte" name="state" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:byte" name="visibility" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:byte" name="is_completed" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:string" name="comments_url" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:byte" name="comments_count" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:byte" name="is_locked" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:string" name="attachments_url" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:byte" name="attachments_count" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:short" name="assignee_id" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:byte" name="delegated_by_id" minOccurs="0" maxOccurs="1"/>
+              <xs:element name="other_assignee_ids" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:short" name="other_assignee_id" maxOccurs="unbounded" minOccurs="0"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element type="xs:byte" name="user_is_subscribed" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:byte" name="version" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:byte" name="priority" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:short" name="project_id" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:date" name="start_on" minOccurs="0" maxOccurs="1"/>
+              <xs:element type="xs:date" name="due_on" minOccurs="0" maxOccurs="1"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element type="xs:short" name="task_id"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

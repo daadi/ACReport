@@ -33,6 +33,11 @@ public final class Task
 	private Long id;
 
 	/**
+	 * The URL of this object in the AC API.
+	 */
+	private String url;
+	
+	/**
 	 * The task id. As in the permalink.
 	 */
 	@XmlElement(name = "task_id")
@@ -48,11 +53,6 @@ public final class Task
 	 */
 	@XmlJavaTypeAdapter(TaskPriorityAdapter.class)
 	private TaskPriority priority;
-
-	/**
-	 * Body (opening comment).
-	 */
-	private String body;
 
 	/**
 	 * Version. Used for cache validation.

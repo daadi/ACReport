@@ -24,12 +24,12 @@ public final class VelocityUtil
 	/**
 	 * Datetime format.
 	 */
-	private static final SimpleDateFormat DATETIMEFORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
+	private static final String DATETIMEFORMAT = "yyyy-MM-dd HH:mm:ss";
+	
 	/**
 	 * Date format.
 	 */
-	private static final SimpleDateFormat DATEFORMAT = new SimpleDateFormat("yyyy-MM-dd");
+	private static final String DATEFORMAT = "yyyy-MM-dd";
 
 	/**
 	 * @param date
@@ -38,7 +38,7 @@ public final class VelocityUtil
 	 */
 	public String simpleDateTime(final Date date)
 	{
-		return DATETIMEFORMAT.format(date);
+		return new SimpleDateFormat(DATETIMEFORMAT).format(date);
 	}
 
 	/**
@@ -48,7 +48,7 @@ public final class VelocityUtil
 	 */
 	public String simpleDate(final Date date)
 	{
-		return DATEFORMAT.format(date);
+		return new SimpleDateFormat(DATEFORMAT).format(date);
 	}
 
 	/**

@@ -2,10 +2,16 @@ package com.artisztikum.ac.objects;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
+
+import javax.management.RuntimeErrorException;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.artisztikum.ac.ac.Milestone;
@@ -24,35 +30,45 @@ public final class TestTask
 	/**
 	 * Tests all required fields of the {@link Task}.
 	 */
-	@Test
-	public void testTaskFields()
+	@Test(dataProvider="dpTestTaskField")
+	public void testTaskField(final Object actual, final Object expected, final String field)
 	{
+		Assert.assertEquals(actual, expected, String.format("Invalid %s", field));
+	}
+	
+	@DataProvider
+	public Iterator<Object[]> dpTestTaskField()
+	{
+		final Collection<Object[]> result = new LinkedList<Object[]>();
+
 		final Source testFile = new StreamSource(getClass().getResourceAsStream(
 				"/com/artisztikum/ac/objects/task.clean.xml"));
 
 		TaskCache.init(null);
 		final Task t = TaskCache.get().unmarshal(testFile);
 
-		Assert.assertEquals(t.getTaskId(), Long.valueOf(400), "TaskId mismatch");
-		Assert.assertEquals(t.getId(), Long.valueOf(94523), "Id mismatch");
-		Assert.assertEquals(t.getName(), "Dummy Task", "Name mismatch");
-		Assert.assertEquals(t.getBody(), "Lorem ipsum dolor sit amet...", "Body mismatch");
-		Assert.assertEquals(t.getVersion(), Long.valueOf(5), "Version mismatch");
+		result.add(new Object[] {t.getTaskId(), Long.valueOf(400), "taskId"});
+		result.add(new Object[] {t.getId(), Long.valueOf(94523), "id"});
+		result.add(new Object[] {t.getName(), "Dummy Task", "name"});
+		result.add(new Object[] {t.getVersion(), Long.valueOf(5), "version"});
+		
+		final URL testUrl;
 		try {
-			Assert.assertEquals(t.getPermalink(), new URL("https://ac.dummy.com/projects/251/tasks/400"),
-					"Permalink mismatch");
-		} catch (final MalformedURLException e) {
-			throw new RuntimeException(e);
+			testUrl = new URL("https://ac.dummy.com/projects/251/tasks/400");
+		} catch (MalformedURLException e1) {
+			throw new RuntimeException(e1);
 		}
-		Assert.assertEquals(t.getAssignee(), new User(980L, "John", "Doe", 111L), "Invalid Assignee");
-		Assert.assertEquals(t.getMilestone(), new Milestone("Dummy Milestone"), "Invalid milestone");
-
-		Assert.assertEquals(t.getCreatedOn().getTime(), 1338547674L * 1000L, "Invalid createdOn");
-		Assert.assertEquals(t.getCreatedBy(), new User(1338L, "Jane", "Doe", 144L), "Invalid createdBy");
-
-		Assert.assertEquals(t.getUpdatedOn().getTime(), 1338897179L * 1000L, "Invalid updatedOn");
-		Assert.assertEquals(t.getUpdatedBy(), new User(1325L, "Bobby", "Ewing", 144L), "Invalid createdBy");
-
-		Assert.assertEquals(t.getDueOn().getTime(), 1338508800L * 1000L, "Invalid dueOn");
+		
+		result.add(new Object[] {t.getPermalink(), testUrl, "permaLink"});
+		result.add(new Object[] {t.getAssignee(), new User(980L, "John", "Doe", 111L), "assignee"});
+		result.add(new Object[] {t.getMilestone(), new Milestone("Dummy Milestone"), "milestone"});
+		result.add(new Object[] {t.getCreatedOn().getTime(), 1338547674L * 1000L, "createdOn"});
+		result.add(new Object[] {t.getCreatedBy(), new User(1338L, "Jane", "Doe", 144L), "createdBy"});
+		result.add(new Object[] {t.getUpdatedOn().getTime(), 1338897179L * 1000L, "updatedOn"});
+		result.add(new Object[] {t.getUpdatedBy(), new User(1325L, "Bobby", "Ewing", 144L), "createdBy"});
+		result.add(new Object[] {t.getDueOn().getTime(), 1338508800L * 1000L, "dueOn"});
+		
+		return result.iterator();
+		
 	}
 }
