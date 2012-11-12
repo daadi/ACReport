@@ -1,6 +1,7 @@
 package com.artisztikum.ac.ac;
 
 import java.net.URL;
+import java.util.Date;
 
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessOrder;
@@ -13,6 +14,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import com.artisztikum.ac.ac.adapters.DateAdapter;
+import com.artisztikum.ac.ac.adapters.DateTimeAdapter;
 import com.artisztikum.ac.ac.adapters.TaskPriorityAdapter;
 
 /**
@@ -78,7 +81,8 @@ public final class Task
 	 * The creation datetime.
 	 */
 	@XmlElement(name = "created_on")
-	private ACDate createdOn;
+	@XmlJavaTypeAdapter(DateTimeAdapter.class)
+	private Date createdOn;
 
 	/**
 	 * The user id of the creator.
@@ -90,7 +94,8 @@ public final class Task
 	 * Last updated datetime.
 	 */
 	@XmlElement(name = "updated_on")
-	private ACDate updatedOn;
+	@XmlJavaTypeAdapter(DateTimeAdapter.class)
+	private Date updatedOn;
 
 	/**
 	 * The user id of the last updater.
@@ -102,7 +107,8 @@ public final class Task
 	 * Due on date.
 	 */
 	@XmlElement(name = "due_on")
-	private ACDate dueOn;
+	@XmlJavaTypeAdapter(DateAdapter.class)
+	private Date dueOn;
 
 	/**
 	 * Overwrite the values for empty subelements to {@code null} in order to easily tested in the velocity macros.

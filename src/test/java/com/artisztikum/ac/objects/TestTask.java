@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import javax.management.RuntimeErrorException;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
@@ -62,11 +61,11 @@ public final class TestTask
 		result.add(new Object[] {t.getPermalink(), testUrl, "permaLink"});
 		result.add(new Object[] {t.getAssignee(), new User(980L, "John", "Doe", 111L), "assignee"});
 		result.add(new Object[] {t.getMilestone(), new Milestone("Dummy Milestone"), "milestone"});
-		result.add(new Object[] {t.getCreatedOn().getTime(), 1338547674L * 1000L, "createdOn"});
+		result.add(new Object[] {t.getCreatedOn().getTime(), 1309768423L * 1000L, "createdOn"});
 		result.add(new Object[] {t.getCreatedBy(), new User(1338L, "Jane", "Doe", 144L), "createdBy"});
-		result.add(new Object[] {t.getUpdatedOn().getTime(), 1338897179L * 1000L, "updatedOn"});
+		result.add(new Object[] {t.getUpdatedOn().getTime(), 1309768423L * 1000L, "updatedOn"});
 		result.add(new Object[] {t.getUpdatedBy(), new User(1325L, "Bobby", "Ewing", 144L), "createdBy"});
-		result.add(new Object[] {t.getDueOn().getTime(), 1338508800L * 1000L, "dueOn"});
+		result.add(new Object[] {t.getDueOn().getTime(), 1309737600L * 1000L, "dueOn"});
 		
 		return result.iterator();
 		
