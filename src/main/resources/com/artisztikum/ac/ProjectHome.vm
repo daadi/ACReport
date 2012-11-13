@@ -45,7 +45,7 @@
 			<tbody>
 #foreach( $task in $tasks )
 				<tr>
-					<td>$task.getTaskId()<a href="$task.getUrl()" target="_blank">API</a></td>
+					<td>$task.getTaskId()<!-- <a href="$task.getUrl()" target="_blank">API</a> --></td>
 					<td><a href="$task.getPermalink()" target="_blank">$task.getName()</a></td>
 					<td><span class="priority $task.getPriority()">$task.getPriority()<span></td>
 					<td>$util.getName($task.getAssignee())</td>

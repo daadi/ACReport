@@ -6,21 +6,21 @@
 	<created_on><![CDATA[ 2011-07-04 08:33:43 ]]></created_on>
 	<created_by>
 		<id>1338</id>
-		<permalink><![CDATA[https://ac.dummy.com/projects/251/tasks/400]]></permalink>
+		<permalink><![CDATA[https://ac.dummy.com/people/111/users/82]]></permalink>
 		<first_name><![CDATA[Jane]]></first_name>
 		<last_name><![CDATA[Doe]]></last_name>
 	</created_by>
 	<updated_on><![CDATA[ 2011-07-04 08:33:43 ]]></updated_on>
 	<updated_by>
 		<id>1325</id>
-		<permalink><![CDATA[https://ac.dummy.com/projects/251/tasks/400]]></permalink>
+		<permalink><![CDATA[https://ac.dummy.com/people/111/users/82]]></permalink>
 		<first_name><![CDATA[Bobby]]></first_name>
 		<last_name><![CDATA[Ewing]]></last_name>
 	</updated_by>
 	<due_on><![CDATA[ 2011-07-04 00:00:00 ]]></due_on>
 	<assignee>
 		<id>980</id>
-		<permalink><![CDATA[https://ac.dummy.com/projects/251/tasks/400]]></permalink>
+		<permalink><![CDATA[https://ac.dummy.com/people/111/users/82]]></permalink>
 		<first_name><![CDATA[John]]></first_name>
 		<last_name><![CDATA[Doe]]></last_name>
 	</assignee>

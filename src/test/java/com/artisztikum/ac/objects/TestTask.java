@@ -59,12 +59,12 @@ public final class TestTask
 		}
 		
 		result.add(new Object[] {t.getPermalink(), testUrl, "permaLink"});
-		result.add(new Object[] {t.getAssignee(), new User(980L, "John", "Doe", 111L), "assignee"});
+		result.add(new Object[] {t.getAssignee(), new User(980L, "John", "Doe", "https://ac.dummy.com/people/111/users/82"), "assignee"});
 		result.add(new Object[] {t.getMilestone(), new Milestone("Dummy Milestone"), "milestone"});
 		result.add(new Object[] {t.getCreatedOn().getTime(), 1309768423L * 1000L, "createdOn"});
-		result.add(new Object[] {t.getCreatedBy(), new User(1338L, "Jane", "Doe", 144L), "createdBy"});
+		result.add(new Object[] {t.getCreatedBy(), new User(1338L, "Jane", "Doe", "https://ac.dummy.com/people/111/users/82"), "createdBy"});
 		result.add(new Object[] {t.getUpdatedOn().getTime(), 1309768423L * 1000L, "updatedOn"});
-		result.add(new Object[] {t.getUpdatedBy(), new User(1325L, "Bobby", "Ewing", 144L), "createdBy"});
+		result.add(new Object[] {t.getUpdatedBy(), new User(1325L, "Bobby", "Ewing", "https://ac.dummy.com/people/111/users/82"), "createdBy"});
 		result.add(new Object[] {t.getDueOn().getTime(), 1309737600L * 1000L, "dueOn"});
 		
 		return result.iterator();

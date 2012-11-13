@@ -97,7 +97,7 @@ public final class TaskCache extends AbstractUnmarshaller<Task>
 		// parse the response => get the list of tasks
 		final NodeList nl;
 		try {
-			nl = (NodeList) Util.getXpath("//tasks/task").evaluate(
+			nl = (NodeList) Util.getXpath("//tasks/task[is_completed = '0']").evaluate(
 					new InputSource(new StringReader(ex.getResponseContent())), XPathConstants.NODESET);
 		} catch (final XPathExpressionException e) {
 			throw new RuntimeException(e);

@@ -1,5 +1,6 @@
 package com.artisztikum.ac.ac;
 
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessOrder;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorOrder;
@@ -9,6 +10,8 @@ import javax.xml.bind.annotation.XmlElement;
 import lombok.Data;
 
 import com.artisztikum.ac.cache.CompanyCache;
+import com.google.common.base.Splitter;
+import com.google.common.collect.Iterables;
 
 /**
  * Represents and Active Collab User.
@@ -37,12 +40,17 @@ public final class User
 	 */
 	@XmlElement(name = "last_name")
 	private String lastName;
+	
 	/**
-	 * Company id of the user.
+	 * Permalink of the user. Used to get the company id.
 	 */
-	@XmlElement(name = "company_id")
-	private Long companyId;
+	private String permalink;
 
+	/**
+	 * The company id.
+	 */
+	private Long companyId;
+	
 	/**
 	 * Default.
 	 */
@@ -60,12 +68,13 @@ public final class User
 	 * @param companyId
 	 *            Company id of the user.
 	 */
-	public User(final Long id, final String firstName, final String lastName, final Long companyId)
+	public User(final Long id, final String firstName, final String lastName, final String permalink)
 	{
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.companyId = companyId;
+		this.permalink = permalink;
+		this.companyId = getCompanyFromPermalink(permalink);
 	}
 
 	/**
@@ -77,5 +86,35 @@ public final class User
 			return null;
 		}
 		return CompanyCache.get().getCompany(companyId);
+	}
+	
+	/**
+	 * Overwrite the values for empty subelements to {@code null} in order to easily tested in the velocity macros.
+	 *
+	 * @param u
+	 *            The unmarshaller
+	 * @param parent
+	 *            The parent
+	 */
+	public void afterUnmarshal(final Unmarshaller u, final Object parent)
+	{
+		if (null == permalink) {
+			return;
+		}
+		
+		companyId = getCompanyFromPermalink(permalink);
+	}
+	
+	/**
+	 * Gets the companyId from the given user's permalink.
+	 * 
+	 * @param permalink The permalink
+	 * @return The company id (actually the 3rd element from the url separated by slashes).
+	 */
+	private Long getCompanyFromPermalink(final String permalink)
+	{
+		return Long.valueOf(Iterables.get(
+				Splitter.on("/").omitEmptyStrings().split(permalink),
+				3));		
 	}
 }
