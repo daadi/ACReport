@@ -26,9 +26,9 @@ import com.google.common.collect.Iterables;
 
 /**
  * Stores {@link Project}s.
- *
+ * 
  * @author Adam DAJKA (dajka@artisztikum.hu)
- *
+ * 
  */
 public final class ProjectCache extends AbstractUnmarshaller<Project>
 {
@@ -100,7 +100,7 @@ public final class ProjectCache extends AbstractUnmarshaller<Project>
 
 	/**
 	 * Static init.
-	 *
+	 * 
 	 * @param client
 	 *            The {@link ACHttpClient} to use.
 	 */

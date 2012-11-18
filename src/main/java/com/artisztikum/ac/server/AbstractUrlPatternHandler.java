@@ -18,9 +18,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Catches and handles a request based on a regular expression.
- *
+ * 
  * @author Adam DAJKA (dajka@artisztikum.hu)
- *
+ * 
  */
 public abstract class AbstractUrlPatternHandler extends AbstractLifeCycle implements Handler
 {

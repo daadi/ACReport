@@ -23,9 +23,9 @@ import com.artisztikum.ac.server.ProjectListHandler;
 
 /**
  * Initializes and starts the service.
- *
+ * 
  * @author Adam DAJKA (dajka@artisztikum.hu)
- *
+ * 
  */
 public final class Start
 {
@@ -36,7 +36,7 @@ public final class Start
 
 	/**
 	 * Writes an error message to STDERR, then quits.
-	 *
+	 * 
 	 * @param msg
 	 *            The message.
 	 */
@@ -83,7 +83,7 @@ public final class Start
 		}
 
 		/* *****************************************************
-		 *
+		 * 
 		 * HTTP Client
 		 */
 
@@ -102,7 +102,7 @@ public final class Start
 				getIntValue(config, "httpclient.threadPoolSize", "100"), true);
 
 		/* *****************************************************
-		 *
+		 * 
 		 * Task cache
 		 */
 
@@ -156,7 +156,7 @@ public final class Start
 
 	/**
 	 * Gets an {@code int} value from a {@link Properties}.
-	 *
+	 * 
 	 * @param cfg
 	 *            The {@link Properties}.
 	 * @param key
@@ -178,7 +178,7 @@ public final class Start
 
 	/**
 	 * Gets an {@code long} value from a {@link Properties}.
-	 *
+	 * 
 	 * @param cfg
 	 *            The {@link Properties}.
 	 * @param key

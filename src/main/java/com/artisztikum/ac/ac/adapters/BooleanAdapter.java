@@ -4,9 +4,9 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * JAXB Adapter to convert Boolean from Active Collab API.
- *
+ * 
  * @author Adam DAJKA (dajka@artisztikum.hu)
- *
+ * 
  */
 public final class BooleanAdapter extends XmlAdapter<String, Boolean>
 {

@@ -16,9 +16,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Serves all content under {@code /static/}.
- *
+ * 
  * @author Adam DAJKA (dajka@artisztikum.hu)
- *
+ * 
  */
 public final class FileServerHandler extends AbstractLifeCycle implements Handler
 {

@@ -32,9 +32,9 @@ import com.artisztikum.ac.httpclient.ACHttpClient;
 
 /**
  * Contains the {@link Task}s.
- *
+ * 
  * @author Adam DAJKA (dajka@artisztikum.hu)
- *
+ * 
  */
 public final class TaskCache extends AbstractUnmarshaller<Task>
 {
@@ -83,7 +83,7 @@ public final class TaskCache extends AbstractUnmarshaller<Task>
 
 	/**
 	 * Gets all tasks for the given project.
-	 *
+	 * 
 	 * @param projectId
 	 *            The id of the project
 	 * @return All tasks for the given projects.
@@ -172,7 +172,7 @@ public final class TaskCache extends AbstractUnmarshaller<Task>
 
 	/**
 	 * Static init of the singleton instance.
-	 *
+	 * 
 	 * @param client
 	 *            the client
 	 */

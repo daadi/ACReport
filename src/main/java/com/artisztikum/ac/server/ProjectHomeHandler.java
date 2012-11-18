@@ -28,9 +28,9 @@ import com.artisztikum.ac.cache.TaskCache;
 
 /**
  * Main handler for the task list.
- *
+ * 
  * @author Adam DAJKA (dajka@artisztikum.hu)
- *
+ * 
  */
 public final class ProjectHomeHandler extends AbstractUrlPatternHandler
 {

@@ -25,9 +25,9 @@ import com.artisztikum.ac.httpclient.ACHttpClient;
 
 /**
  * Shows a list of available projects.
- *
+ * 
  * @author Adam DAJKA (dajka@artisztikum.hu)
- *
+ * 
  */
 public final class ProjectListHandler extends AbstractUrlPatternHandler
 {

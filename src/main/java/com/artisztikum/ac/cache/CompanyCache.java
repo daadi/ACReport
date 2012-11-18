@@ -27,9 +27,9 @@ import com.google.common.cache.CacheBuilder;
 
 /**
  * Gets the companies.
- *
+ * 
  * @author Adam DAJKA (dajka@artisztikum.hu)
- *
+ * 
  */
 public final class CompanyCache extends AbstractUnmarshaller<Company>
 {
@@ -87,7 +87,7 @@ public final class CompanyCache extends AbstractUnmarshaller<Company>
 
 	/**
 	 * Gets the given {@link Company} from an AC API XML answer represented as {@link InputSource}.
-	 *
+	 * 
 	 * @param src
 	 *            The XML.
 	 * @param id
@@ -116,9 +116,9 @@ public final class CompanyCache extends AbstractUnmarshaller<Company>
 
 	/**
 	 * Gets the company for the given {@code id}.
-	 *
+	 * 
 	 * First try from the local cache. If no company found then download a new list.
-	 *
+	 * 
 	 * @param id
 	 *            The id of the {@link Company}.
 	 * @return The {@link Company}.
@@ -169,7 +169,7 @@ public final class CompanyCache extends AbstractUnmarshaller<Company>
 
 	/**
 	 * Downloads a new company list from the AC API. Also updates {@link #companyListLastRefresh}.
-	 *
+	 * 
 	 * @return The freshly downloaded company list.
 	 */
 	private synchronized InputSource refreshCompanyList()
@@ -188,7 +188,7 @@ public final class CompanyCache extends AbstractUnmarshaller<Company>
 	/**
 	 * Returns a "valid" company list. If the previous list was downloaded before {@link #cacheTimeout}, then downloads
 	 * a new one.
-	 *
+	 * 
 	 * @return A company list.
 	 */
 	private synchronized InputSource getCachedCompanyList()
@@ -202,7 +202,7 @@ public final class CompanyCache extends AbstractUnmarshaller<Company>
 
 	/**
 	 * Static init of the singleton instance.
-	 *
+	 * 
 	 * @param client
 	 *            the {@link ACHttpClient} for loading the cache.
 	 * @param cacheTimeout

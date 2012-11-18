@@ -13,9 +13,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Abstract class for unmarshaling {@link Source}s into <code>E</code>.
- *
+ * 
  * @author Adam DAJKA (dajka@artisztikum.hu)
- *
+ * 
  * @param <E>
  *            The type to unmarsal into.
  */
@@ -43,7 +43,7 @@ public abstract class AbstractUnmarshaller<E>
 	/**
 	 * Subclasses must implement this, but never call directly. The returned {@link JAXBContext} will be used in
 	 * {@link #unmarshal(Source)}.
-	 *
+	 * 
 	 * @return The {@link JAXBContext} to use during the unmarshalling.
 	 */
 	protected abstract JAXBContext getMarshallerContext();
@@ -51,7 +51,7 @@ public abstract class AbstractUnmarshaller<E>
 	/**
 	 * Subclasses must implement this, but never call directly. The returned {@link Class} will be used in
 	 * {@link #unmarshal(Source)}.
-	 *
+	 * 
 	 * @return The target class.
 	 */
 	protected abstract Class<E> getTargetClass();
@@ -65,16 +65,16 @@ public abstract class AbstractUnmarshaller<E>
 	{
 		try {
 			final Unmarshaller u = jcContext.createUnmarshaller();
-			u.setEventHandler(
-				    new ValidationEventHandler() {
-				        public boolean handleEvent(final ValidationEvent event ) {
-				        	if (event.getMessage().contains("unexpected element")) {
-				        		return true;
-				        	}
-				        	LOG.warn(event.getMessage(), event.getLinkedException());
-				        	return true;
-				        }
-				});
+			u.setEventHandler(new ValidationEventHandler() {
+				public boolean handleEvent(final ValidationEvent event)
+				{
+					if (event.getMessage().contains("unexpected element")) {
+						return true;
+					}
+					LOG.warn(event.getMessage(), event.getLinkedException());
+					return true;
+				}
+			});
 			final JAXBElement<E> doc = u.unmarshal(src, getTargetClass());
 			return doc.getValue();
 		} catch (final JAXBException e) {

@@ -9,9 +9,9 @@ import com.artisztikum.ac.ac.User;
 
 /**
  * Helper for formatting dates from velocity templates.
- *
+ * 
  * @author Adam DAJKA (dajka@artisztikum.hu)
- *
+ * 
  */
 public final class VelocityUtil
 {
@@ -25,7 +25,7 @@ public final class VelocityUtil
 	 * Datetime format.
 	 */
 	private static final String DATETIMEFORMAT = "yyyy-MM-dd HH:mm:ss";
-	
+
 	/**
 	 * Date format.
 	 */
@@ -53,7 +53,7 @@ public final class VelocityUtil
 
 	/**
 	 * Gets the name of the User.
-	 *
+	 * 
 	 * @param u
 	 *            The User.
 	 * @return The name of the User if available. Otherwise {@value #N_A}.
@@ -69,7 +69,7 @@ public final class VelocityUtil
 
 	/**
 	 * Gets the Company name of the User.
-	 *
+	 * 
 	 * @param u
 	 *            The User.
 	 * @return The Company name of the User if available. Otherwise {@value #N_A}.
@@ -90,7 +90,7 @@ public final class VelocityUtil
 
 	/**
 	 * Gets the Milestone name from the Milestone.
-	 *
+	 * 
 	 * @param m
 	 *            The Milestone.
 	 * @return The name of the Milestone if available. Otherwise {@value #N_A}.

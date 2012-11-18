@@ -12,9 +12,9 @@ import com.artisztikum.ac.ac.TaskPriority;
 
 /**
  * Converts numeric priority values from AC API to {@link TaskPriority} and vice versa.
- *
+ * 
  * @author Adam DAJKA (dajka@artisztikum.hu)
- *
+ * 
  */
 public final class TaskPriorityAdapter extends XmlAdapter<Integer, TaskPriority>
 {

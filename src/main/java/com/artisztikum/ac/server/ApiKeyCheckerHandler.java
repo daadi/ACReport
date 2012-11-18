@@ -23,9 +23,9 @@ import com.artisztikum.ac.httpclient.ACHttpClient;
 
 /**
  * Checks if an api key is saved into a cookie. If not, allows the user to provide it.
- *
+ * 
  * @author Adam DAJKA (dajka@artisztikum.hu)
- *
+ * 
  */
 public final class ApiKeyCheckerHandler extends AbstractLifeCycle implements Handler
 {
@@ -89,7 +89,6 @@ public final class ApiKeyCheckerHandler extends AbstractLifeCycle implements Han
 			ctx.put("invalidKey", true);
 			ctx.put("apiKey", client.getApiKey());
 		}
-
 
 		// otherwise show the login screen
 		final Template template = Velocity.getTemplate("/com/artisztikum/ac/Login.vm");

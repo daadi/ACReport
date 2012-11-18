@@ -9,9 +9,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 /**
  * A subclass of {@link java.util.Date} for de-serializing the date format of AC API. The {@link Unmarshaller} will call
  * {@link #setTimestamp(Long)} and this will call {@link #setTime(long)} setting the time of this instance.
- *
+ * 
  * @author Adam DAJKA (dajka@artisztikum.hu)
- *
+ * 
  */
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public final class ACDate extends Date
@@ -40,7 +40,7 @@ public final class ACDate extends Date
 
 	/**
 	 * Constructor for setting the time initially.
-	 *
+	 * 
 	 * @param timestamp
 	 *            The timestamp to set.
 	 * @see #setTimestamp(Long)

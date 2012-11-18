@@ -20,27 +20,46 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.xml.sax.SAXException;
 
-public class TestXML {
+/**
+ * Test for xml formats.
+ * 
+ * @author Adam DAJKA (dajka@artisztikum.hu)
+ * 
+ */
+public final class TestXML
+{
 
+	/**
+	 * @param xmlSchema
+	 *            XML schema to test with
+	 * @param xmlFile
+	 *            XML file to test agains {@code xmlSchema}
+	 * @throws SAXException
+	 *             On error parsing {@code xmlSchema}
+	 */
 	@Test(dataProvider = "dpTestTaskXML")
-	public void testTaskXML(final Source xmlSchema, final Source xmlFile)
-			throws SAXException {
-		SchemaFactory schemaFactory = SchemaFactory
-				.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-		Schema schema = schemaFactory.newSchema(xmlSchema);
-		Validator validator = schema.newValidator();
+	public void testTaskXML(final Source xmlSchema, final Source xmlFile) throws SAXException
+	{
+		final SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+		final Schema schema = schemaFactory.newSchema(xmlSchema);
+		final Validator validator = schema.newValidator();
 		try {
 			validator.validate(xmlFile);
-		} catch (SAXException e) {
-			Assert.fail(xmlFile.getSystemId() + " is NOT valid" + "Reason: "
-					+ e.getLocalizedMessage(), e);
-		} catch (IOException e) {
+		} catch (final SAXException e) {
+			Assert.fail(xmlFile.getSystemId() + " is NOT valid" + "Reason: " + e.getLocalizedMessage(), e);
+		} catch (final IOException e) {
 			Assert.fail("IO error", e);
 		}
 	}
 
+	/**
+	 * @return Params for {@link #testTaskXML(Source, Source)}.
+	 * @throws Exception
+	 *             When HttpClient throws Exception.
+	 */
 	@DataProvider
-	public Iterator<Object[]> dpTestTaskXML() throws Exception {
+	public Iterator<Object[]> dpTestTaskXML() throws Exception
+	{
 
 		final HttpClient client = new HttpClient();
 
@@ -50,19 +69,16 @@ public class TestXML {
 
 		final Collection<Object[]> result = new LinkedList<Object[]>();
 
-		result.add(new Object[] {
-				new StreamSource(getClass().getResourceAsStream("/task.xsd")),
-				new StreamSource(getClass().getResourceAsStream(
-						"/com/artisztikum/ac/objects/task.clean.xml")) });
+		result.add(new Object[] { new StreamSource(getClass().getResourceAsStream("/task.xsd")),
+				new StreamSource(getClass().getResourceAsStream("/com/artisztikum/ac/objects/task.clean.xml")) });
 
-		ContentExchange ce = new ContentExchange();
+		final ContentExchange ce = new ContentExchange();
 		ce.setMethod("GET");
 		ce.setURL(System.getProperty("com.artisztikum.ac.test.task.url"));
 		client.send(ce);
 		ce.waitForDone();
-		
-		result.add(new Object[] {
-				new StreamSource(getClass().getResourceAsStream("/task.xsd")),
+
+		result.add(new Object[] { new StreamSource(getClass().getResourceAsStream("/task.xsd")),
 				new StreamSource(new StringReader(ce.getResponseContent())) });
 
 		return result.iterator();

@@ -8,9 +8,9 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * JAXB Adapter to convert Datetimes from Active Collab API.
- *
+ * 
  * @author Adam DAJKA (dajka@artisztikum.hu)
- *
+ * 
  */
 public final class DateTimeAdapter extends XmlAdapter<String, Date>
 {

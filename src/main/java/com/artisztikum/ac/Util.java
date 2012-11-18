@@ -19,9 +19,9 @@ import org.xml.sax.InputSource;
 
 /**
  * Common utility methods.
- *
+ * 
  * @author Adam DAJKA (dajka@artisztikum.hu)
- *
+ * 
  */
 public final class Util
 {
@@ -35,7 +35,7 @@ public final class Util
 
 	/**
 	 * Gets the {@link Cookie} from a {@link HttpServletRequest} with a given name.
-	 *
+	 * 
 	 * @param request
 	 *            The {@link HttpServletRequest}.
 	 * @param cookieName
@@ -54,7 +54,7 @@ public final class Util
 
 	/**
 	 * Gets an {@link XPathExpression} with the given {@code expression}.
-	 *
+	 * 
 	 * @param expression
 	 *            The expression to compile.
 	 * @return The {@link XPathExpression}
@@ -68,7 +68,7 @@ public final class Util
 
 	/**
 	 * Returns a String representation of {@code node} for debugging purposes.
-	 *
+	 * 
 	 * @param node
 	 *            The {@link Node}.
 	 * @return The String.
@@ -88,7 +88,7 @@ public final class Util
 
 	/**
 	 * Wraps an {@link InputSource} around a String.
-	 *
+	 * 
 	 * @param src
 	 *            {@link String}
 	 * @return {@link InputSource}.

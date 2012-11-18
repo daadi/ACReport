@@ -40,7 +40,7 @@ public final class User
 	 */
 	@XmlElement(name = "last_name")
 	private String lastName;
-	
+
 	/**
 	 * Permalink of the user. Used to get the company id.
 	 */
@@ -50,7 +50,7 @@ public final class User
 	 * The company id.
 	 */
 	private Long companyId;
-	
+
 	/**
 	 * Default.
 	 */
@@ -65,8 +65,8 @@ public final class User
 	 *            First name of the User.
 	 * @param lastName
 	 *            Last name of the User.
-	 * @param companyId
-	 *            Company id of the user.
+	 * @param permalink
+	 *            Permalink for of the user. Used to get {@link #companyId}.
 	 */
 	public User(final Long id, final String firstName, final String lastName, final String permalink)
 	{
@@ -87,7 +87,7 @@ public final class User
 		}
 		return CompanyCache.get().getCompany(companyId);
 	}
-	
+
 	/**
 	 * Overwrite the values for empty subelements to {@code null} in order to easily tested in the velocity macros.
 	 *
@@ -101,20 +101,19 @@ public final class User
 		if (null == permalink) {
 			return;
 		}
-		
+
 		companyId = getCompanyFromPermalink(permalink);
 	}
-	
+
 	/**
 	 * Gets the companyId from the given user's permalink.
-	 * 
-	 * @param permalink The permalink
+	 *
+	 * @param permalinkURL
+	 *            The permalink
 	 * @return The company id (actually the 3rd element from the url separated by slashes).
 	 */
-	private Long getCompanyFromPermalink(final String permalink)
+	private static Long getCompanyFromPermalink(final String permalinkURL)
 	{
-		return Long.valueOf(Iterables.get(
-				Splitter.on("/").omitEmptyStrings().split(permalink),
-				3));		
+		return Long.valueOf(Iterables.get(Splitter.on("/").omitEmptyStrings().split(permalinkURL), 3));
 	}
 }
