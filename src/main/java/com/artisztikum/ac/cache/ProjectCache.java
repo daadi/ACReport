@@ -1,6 +1,5 @@
 package com.artisztikum.ac.cache;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -11,7 +10,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
-import org.eclipse.jetty.client.ContentExchange;
+import org.eclipse.jetty.client.api.ContentResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.NodeList;
@@ -26,9 +25,9 @@ import com.google.common.collect.Iterables;
 
 /**
  * Stores {@link Project}s.
- * 
+ *
  * @author Adam DAJKA (dajka@artisztikum.hu)
- * 
+ *
  */
 public final class ProjectCache extends AbstractUnmarshaller<Project>
 {
@@ -75,15 +74,13 @@ public final class ProjectCache extends AbstractUnmarshaller<Project>
 			return result;
 		}
 
-		final ContentExchange ex = client.sendGetWait("/projects/");
+		final ContentResponse response = client.sendGetWait("/projects/");
 
 		final NodeList nl;
 		try {
-			nl = (NodeList) Util.getXpath("//projects/project").evaluate(Util.getSource(ex.getResponseContent()),
+			nl = (NodeList) Util.getXpath("//projects/project").evaluate(Util.getSource(response.getContentAsString()),
 					XPathConstants.NODESET);
 		} catch (final XPathExpressionException e) {
-			throw new RuntimeException(e);
-		} catch (final UnsupportedEncodingException e) {
 			throw new RuntimeException(e);
 		}
 
@@ -100,7 +97,7 @@ public final class ProjectCache extends AbstractUnmarshaller<Project>
 
 	/**
 	 * Static init.
-	 * 
+	 *
 	 * @param client
 	 *            The {@link ACHttpClient} to use.
 	 */

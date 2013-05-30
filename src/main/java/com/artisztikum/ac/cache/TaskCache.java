@@ -1,7 +1,6 @@
 package com.artisztikum.ac.cache;
 
 import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -10,6 +9,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -17,7 +18,9 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
-import org.eclipse.jetty.client.ContentExchange;
+import org.eclipse.jetty.client.api.ContentResponse;
+import org.eclipse.jetty.client.api.Request;
+import org.eclipse.jetty.client.util.InputStreamResponseListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
@@ -32,9 +35,9 @@ import com.artisztikum.ac.httpclient.ACHttpClient;
 
 /**
  * Contains the {@link Task}s.
- * 
+ *
  * @author Adam DAJKA (dajka@artisztikum.hu)
- * 
+ *
  */
 public final class TaskCache extends AbstractUnmarshaller<Task>
 {
@@ -83,7 +86,7 @@ public final class TaskCache extends AbstractUnmarshaller<Task>
 
 	/**
 	 * Gets all tasks for the given project.
-	 * 
+	 *
 	 * @param projectId
 	 *            The id of the project
 	 * @return All tasks for the given projects.
@@ -91,23 +94,21 @@ public final class TaskCache extends AbstractUnmarshaller<Task>
 	public List<Task> getTasks(final String projectId)
 	{
 		// get the fresh list of tasks from the Active Collab API
-		final ContentExchange ex = client.sendGetWait("/projects/%s/tasks/", projectId);
+		final ContentResponse response = client.sendGetWait("/projects/%s/tasks/", projectId);
 		LOG.debug("Got tasks xml");
 
 		// parse the response => get the list of tasks
 		final NodeList nl;
 		try {
 			nl = (NodeList) Util.getXpath("//tasks/task[is_completed = '0']").evaluate(
-					new InputSource(new StringReader(ex.getResponseContent())), XPathConstants.NODESET);
+					new InputSource(new StringReader(response.getContentAsString())), XPathConstants.NODESET);
 		} catch (final XPathExpressionException e) {
-			throw new RuntimeException(e);
-		} catch (final UnsupportedEncodingException e) {
 			throw new RuntimeException(e);
 		}
 
 		final List<Task> result = new ArrayList<Task>();
 
-		final Map<String, ContentExchange> reqs = new HashMap<String, ContentExchange>();
+		final Map<String, InputStreamResponseListener> reqs = new HashMap<String, InputStreamResponseListener>();
 		for (int i = 0; i < nl.getLength(); i++) {
 			final Node n = nl.item(i);
 
@@ -123,7 +124,9 @@ public final class TaskCache extends AbstractUnmarshaller<Task>
 			}
 
 			if (!allTasks.containsKey(id) || !allTasks.get(id).getVersion().equals(Long.parseLong(taskVersion))) {
-				reqs.put(id, client.sendGet("/projects/%s/tasks/%s", projectId, taskId));
+				final InputStreamResponseListener listener = new InputStreamResponseListener();
+				client.newRequest("/projects/%s/tasks/%s", projectId, taskId).send(listener);
+				reqs.put(id, listener);
 
 			} else {
 				result.add(allTasks.get(id));
@@ -131,7 +134,6 @@ public final class TaskCache extends AbstractUnmarshaller<Task>
 		}
 		LOG.debug("Cache: {}, Requests: {}", result.size(), reqs.size());
 
-		final Map<String, ContentExchange> finished = new HashMap<String, ContentExchange>();
 		while (!reqs.isEmpty()) {
 
 			synchronized (this) {
@@ -142,29 +144,30 @@ public final class TaskCache extends AbstractUnmarshaller<Task>
 				}
 			}
 
-			final Iterator<Entry<String, ContentExchange>> it = reqs.entrySet().iterator();
+			final Iterator<Entry<String, InputStreamResponseListener>> it = reqs.entrySet().iterator();
 
 			while (it.hasNext()) {
-				final Entry<String, ContentExchange> req = it.next();
-				if (req.getValue().isDone()) {
-					finished.put(req.getKey(), req.getValue());
+				final Entry<String, InputStreamResponseListener> req = it.next();
+				try {
+
+					final InputStreamResponseListener listener = req.getValue();
+					final Task fetchedTask = unmarshal(new StreamSource(listener.getInputStream()));
+					final Request request = listener.await(0, TimeUnit.MILLISECONDS).getRequest();
+					fetchedTask.setUrl(String.format("%s://%s:%d/%s", request.getScheme(), request.getHost(),
+							request.getPort(), request.getPath()));
+					result.add(fetchedTask);
+					allTasks.put(req.getKey(), fetchedTask);
+
 					it.remove();
+				} catch (final TimeoutException e) {
+					// do nothing, we will try it again later
+					// FIXME not sure if this is the best solution...
+				} catch (final InterruptedException e) {
+					throw new RuntimeException(e);
 				}
 			}
 
 			LOG.debug("number of pending requests: {}", reqs.size());
-		}
-
-		for (final Entry<String, ContentExchange> entry : finished.entrySet()) {
-			try {
-				final ContentExchange ce = entry.getValue();
-				final Task fetchedTask = unmarshal(new StreamSource(new StringReader(ce.getResponseContent())));
-				fetchedTask.setUrl(String.format("%s://%s/%s", ce.getScheme(), ce.getAddress(), ce.getRequestURI()));
-				result.add(fetchedTask);
-				allTasks.put(entry.getKey(), fetchedTask);
-			} catch (final UnsupportedEncodingException e) {
-				throw new RuntimeException(e);
-			}
 		}
 
 		return result;
@@ -172,7 +175,7 @@ public final class TaskCache extends AbstractUnmarshaller<Task>
 
 	/**
 	 * Static init of the singleton instance.
-	 * 
+	 *
 	 * @param client
 	 *            the client
 	 */

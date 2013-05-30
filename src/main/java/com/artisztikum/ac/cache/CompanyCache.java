@@ -1,6 +1,5 @@
 package com.artisztikum.ac.cache;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.Callable;
@@ -12,7 +11,6 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
-import org.eclipse.jetty.client.ContentExchange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
@@ -27,9 +25,9 @@ import com.google.common.cache.CacheBuilder;
 
 /**
  * Gets the companies.
- * 
+ *
  * @author Adam DAJKA (dajka@artisztikum.hu)
- * 
+ *
  */
 public final class CompanyCache extends AbstractUnmarshaller<Company>
 {
@@ -87,7 +85,7 @@ public final class CompanyCache extends AbstractUnmarshaller<Company>
 
 	/**
 	 * Gets the given {@link Company} from an AC API XML answer represented as {@link InputSource}.
-	 * 
+	 *
 	 * @param src
 	 *            The XML.
 	 * @param id
@@ -116,9 +114,9 @@ public final class CompanyCache extends AbstractUnmarshaller<Company>
 
 	/**
 	 * Gets the company for the given {@code id}.
-	 * 
+	 *
 	 * First try from the local cache. If no company found then download a new list.
-	 * 
+	 *
 	 * @param id
 	 *            The id of the {@link Company}.
 	 * @return The {@link Company}.
@@ -169,26 +167,21 @@ public final class CompanyCache extends AbstractUnmarshaller<Company>
 
 	/**
 	 * Downloads a new company list from the AC API. Also updates {@link #companyListLastRefresh}.
-	 * 
+	 *
 	 * @return The freshly downloaded company list.
 	 */
 	private synchronized InputSource refreshCompanyList()
 	{
-		try {
-			final ContentExchange cx = client.sendGetWait("/people/");
-			cachedCompanyList = cx.getResponseContent();
-			companyListLastRefresh = new Date();
-			cache.invalidateAll();
-			return Util.getSource(cachedCompanyList);
-		} catch (final UnsupportedEncodingException e) {
-			throw new RuntimeException("Cannot get company list", e);
-		}
+		cachedCompanyList = client.sendGetWait("/people/").getContentAsString();
+		companyListLastRefresh = new Date();
+		cache.invalidateAll();
+		return Util.getSource(cachedCompanyList);
 	}
 
 	/**
 	 * Returns a "valid" company list. If the previous list was downloaded before {@link #cacheTimeout}, then downloads
 	 * a new one.
-	 * 
+	 *
 	 * @return A company list.
 	 */
 	private synchronized InputSource getCachedCompanyList()
@@ -202,7 +195,7 @@ public final class CompanyCache extends AbstractUnmarshaller<Company>
 
 	/**
 	 * Static init of the singleton instance.
-	 * 
+	 *
 	 * @param client
 	 *            the {@link ACHttpClient} for loading the cache.
 	 * @param cacheTimeout

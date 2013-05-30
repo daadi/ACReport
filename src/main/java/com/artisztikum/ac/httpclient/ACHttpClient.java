@@ -1,11 +1,13 @@
 package com.artisztikum.ac.httpclient;
 
-import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 
 import lombok.Getter;
 
-import org.eclipse.jetty.client.ContentExchange;
 import org.eclipse.jetty.client.HttpClient;
+import org.eclipse.jetty.client.api.ContentResponse;
+import org.eclipse.jetty.client.api.Request;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,9 +37,14 @@ public final class ACHttpClient
 	private final ThreadLocal<String> apiKey = new ThreadLocal<String>();
 
 	/**
+	 * The threadpool to execute all request.
+	 */
+	private final QueuedThreadPool executor;
+
+	/**
 	 * The jetty client.
 	 */
-	private final HttpClient client = new HttpClient();
+	private final HttpClient client;
 
 	/**
 	 * Public constructor. Initializes the jetty client
@@ -55,34 +62,38 @@ public final class ACHttpClient
 			final boolean trustAll)
 	{
 		this.apiHost = apiHost;
-		synchronized (client) {
-			if (!client.isStarted()) {
-				try {
-					LOG.trace("Starting client");
-					client.setConnectorType(HttpClient.CONNECTOR_SELECT_CHANNEL);
-					client.setMaxConnectionsPerAddress(connectionsPerAddress);
-					client.setThreadPool(new QueuedThreadPool(threadSize));
-					client.getSslContextFactory().setTrustAll(trustAll);
-					client.start();
+		try {
+			this.client = new HttpClient();
 
-				} catch (final Exception e) {
-					throw new RuntimeException(e);
-				}
-			}
+			LOG.trace("Starting client");
+
+			// TODO what is this in jetty 9? is it needed?
+			// client.setConnectorType(HttpClient.CONNECTOR_SELECT_CHANNEL);
+			client.setMaxConnectionsPerDestination(connectionsPerAddress);
+
+			executor = new QueuedThreadPool(threadSize);
+			client.setExecutor(executor);
+
+			client.getSslContextFactory().setTrustAll(trustAll);
+
+			client.start();
+
+		} catch (final Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 
 	/**
-	 * Sends a {@link ContentExchange} to the jetty client if there are enough threads available.
+	 * Sends a {@link Request} to the jetty client if there are enough threads available.
 	 *
-	 * @param ex
-	 *            The {@link ContentExchange} to send.
-	 * @return The same {@link ContentExchange}.
+	 * @param req
+	 *            The {@link Request} to send.
+	 * @return The same {@link Request}.
 	 */
-	public ContentExchange send(final ContentExchange ex)
+	public Request send(final Request req)
 	{
 		synchronized (this) {
-			while (client.getThreadPool().isLowOnThreads()) {
+			while (executor.isLowOnThreads()) {
 				try {
 					LOG.info("Waiting for free threads. Maybe you should increase the limit?");
 					wait(1000);
@@ -91,12 +102,16 @@ public final class ACHttpClient
 				}
 			}
 			try {
-				client.send(ex);
-			} catch (final IOException e) {
-				throw new RuntimeException("IO error during http request", e);
+				req.send();
+			} catch (final InterruptedException e) {
+				throw new RuntimeException("Request interrupted: " + req.getURI(), e);
+			} catch (final TimeoutException e) {
+				throw new RuntimeException("Request timeout: " + req.getURI(), e);
+			} catch (final ExecutionException e) {
+				throw new RuntimeException("Error executing request: " + req.getURI(), e);
 			}
 		}
-		return ex;
+		return req;
 	}
 
 	/**
@@ -106,17 +121,36 @@ public final class ACHttpClient
 	 *            The format string of the {@code path_info} parameter (e.g. {@code /projects/%s/tasks/%s}.
 	 * @param args
 	 *            The args for the format string.
-	 * @return The resulted {@link ContentExchange} instance with the response already initialized.
+	 * @return The {@link ContentResponse} instance
 	 */
-	public ContentExchange sendGetWait(final String pathInfo, final Object... args)
+	public ContentResponse sendGetWait(final String pathInfo, final Object... args)
 	{
-		final ContentExchange ex = sendGet(pathInfo, args);
 		try {
-			ex.waitForDone();
+			return client.GET(getRequestURL(pathInfo, args));
 		} catch (final InterruptedException e) {
 			throw new RuntimeException(e);
+		} catch (final ExecutionException e) {
+			throw new RuntimeException(e);
+		} catch (final TimeoutException e) {
+			throw new RuntimeException(e);
 		}
-		return ex;
+	}
+
+	/**
+	 * Gets a full request url with {@code args} subst'ed into {@code pathInfo}.
+	 *
+	 * @param pathInfo
+	 *            The pathInfo param passed to api.php. e.g. {@code /projects/%d/}.
+	 * @param args
+	 *            The args to be used in {@code pathInfo}
+	 * @return A request url with proper hostname, token and pathInfo parameter
+	 */
+	public String getRequestURL(final String pathInfo, final Object... args)
+	{
+		final String url = String.format("%s/api.php?auth_api_token=%s&path_info=%s", apiHost, apiKey.get(),
+				String.format(pathInfo, args));
+		LOG.trace("{}/api.php?path_info={}&auth_api_token=***", apiHost, String.format(pathInfo, args));
+		return url;
 	}
 
 	/**
@@ -126,16 +160,11 @@ public final class ACHttpClient
 	 *            The format string of the {@code path_info} parameter (e.g. {@code /projects/%s/tasks/%s}.
 	 * @param args
 	 *            The args for the format string.
-	 * @return The resulted {@link ContentExchange} instance with the response not initialized.
+	 * @return The resulted {@link Request} instance with the response not initialized.
 	 */
-	public ContentExchange sendGet(final String pathInfo, final Object... args)
+	public Request newRequest(final String pathInfo, final Object... args)
 	{
-		final ContentExchange ex = new ContentExchange();
-		ex.setMethod("GET");
-		LOG.trace("{}/api.php?path_info={}&auth_api_token=***", apiHost, String.format(pathInfo, args));
-		ex.setURL(String.format("%s/api.php?auth_api_token=%s&path_info=%s", apiHost, apiKey.get(),
-				String.format(pathInfo, args)));
-		return send(ex);
+		return client.newRequest(getRequestURL(pathInfo, args));
 	}
 
 	/**

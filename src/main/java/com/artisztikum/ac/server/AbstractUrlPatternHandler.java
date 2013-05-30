@@ -8,7 +8,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.eclipse.jetty.server.AbstractHttpConnection;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Response;
@@ -18,9 +17,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Catches and handles a request based on a regular expression.
- * 
+ *
  * @author Adam DAJKA (dajka@artisztikum.hu)
- * 
+ *
  */
 public abstract class AbstractUrlPatternHandler extends AbstractLifeCycle implements Handler
 {

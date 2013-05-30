@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
-import org.eclipse.jetty.client.ContentExchange;
+import org.eclipse.jetty.client.api.ContentResponse;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
@@ -23,9 +23,9 @@ import com.artisztikum.ac.httpclient.ACHttpClient;
 
 /**
  * Checks if an api key is saved into a cookie. If not, allows the user to provide it.
- * 
+ *
  * @author Adam DAJKA (dajka@artisztikum.hu)
- * 
+ *
  */
 public final class ApiKeyCheckerHandler extends AbstractLifeCycle implements Handler
 {
@@ -81,8 +81,8 @@ public final class ApiKeyCheckerHandler extends AbstractLifeCycle implements Han
 				baseRequest.setHandled(true);
 			}
 
-			final ContentExchange infoCtx = client.sendGetWait("/info");
-			if (infoCtx.getResponseStatus() != 403) {
+			final ContentResponse infoResponse = client.sendGetWait("/info");
+			if (infoResponse.getStatus() != 403) {
 				return;
 			}
 

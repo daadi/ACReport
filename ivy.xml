@@ -34,13 +34,13 @@
 		<dependency transitive="true" org="com.google" name="guice" rev="3.0" conf="compile;runtime" />
 
 		<!-- jetty -->
-		<dependency transitive="false" org="org.eclipse.jetty" name="jetty-client" rev="7.6.1.v20120215" conf="compile;runtime" />
-		<dependency transitive="false" org="org.eclipse.jetty" name="jetty-http" rev="7.6.1.v20120215" conf="compile;runtime" />
-		<dependency transitive="false" org="org.eclipse.jetty" name="jetty-io" rev="7.6.1.v20120215" conf="compile;runtime" />
-		<dependency transitive="false" org="org.eclipse.jetty" name="jetty-server" rev="7.6.1.v20120215" conf="compile;runtime" />
-		<dependency transitive="false" org="org.eclipse.jetty" name="jetty-util" rev="7.6.1.v20120215" conf="compile;runtime" />
-		<dependency transitive="false" org="org.eclipse.jetty" name="jetty-xml" rev="7.6.1.v20120215" conf="compile;runtime" />
-		<dependency transitive="false" org="org.eclipse.jetty" name="jetty-continuation" rev="7.6.1.v20120215" conf="compile;runtime" />
+		<dependency transitive="false" org="org.eclipse.jetty" name="jetty-client" rev="9.0.3.v20130506" conf="compile;runtime" />
+		<dependency transitive="false" org="org.eclipse.jetty" name="jetty-http" rev="9.0.3.v20130506" conf="compile;runtime" />
+		<dependency transitive="false" org="org.eclipse.jetty" name="jetty-io" rev="9.0.3.v20130506" conf="compile;runtime" />
+		<dependency transitive="false" org="org.eclipse.jetty" name="jetty-server" rev="9.0.3.v20130506" conf="compile;runtime" />
+		<dependency transitive="false" org="org.eclipse.jetty" name="jetty-util" rev="9.0.3.v20130506" conf="compile;runtime" />
+		<dependency transitive="false" org="org.eclipse.jetty" name="jetty-xml" rev="9.0.3.v20130506" conf="compile;runtime" />
+		<dependency transitive="false" org="org.eclipse.jetty" name="jetty-continuation" rev="9.0.3.v20130506" conf="compile;runtime" />
 		
 		<!-- <dependency transitive="false" org="org.eclipse.jetty" name="jetty-jmx" rev="7.6.1.v20120215" conf="compile;runtime" /> -->
 		<!-- <dependency transitive="false" org="org.eclipse.jetty" name="jetty-servlet" rev="7.6.1.v20120215" conf="compile;runtime" /> -->
